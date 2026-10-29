@@ -26,7 +26,7 @@ val forgeVersion: String = sc.properties["deps.forge"]
 val mixinJava = "JAVA_${minOf(requiredJava.majorVersion.toInt(), 21)}"
 
 minecraft {
-    accessTransformers.from(accessTransformer)
+    if (System.getenv("PROBE_NO_AT") == null) accessTransformers.from(accessTransformer)
 
     // 26.1+ ships unobfuscated, older versions need Mojang's mappings applied.
     // Forge runs the game under Mojang's names on all of them, so the jar needs no remapping.
@@ -58,7 +58,7 @@ dependencies {
 
     // MixinExtras ships with Forge from 60 (1.21.10) on. Before that, the mod carries it in its jar.
     val mixinExtras = property("deps.mixinextras") as String
-    if (sc.current.parsed < "1.21.10") {
+    if (System.getenv("PROBE_NO_JIJ") == null && sc.current.parsed < "1.21.10") {
         compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtras")!!)
         implementation("io.github.llamalad7:mixinextras-forge:$mixinExtras")
         "jarJar"("io.github.llamalad7:mixinextras-forge:$mixinExtras")

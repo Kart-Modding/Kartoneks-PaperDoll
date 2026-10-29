@@ -1,75 +1,27 @@
-name: Build
-
-# Builds the mod for every Minecraft version (1.21.1 - 26.3) on Fabric (also runs on Quilt),
-# NeoForge and Forge: one job per loader, every version in it. Publishing a GitHub release
-# attaches all the jars to it.
-on:
-  push:
-    branches: [ "**" ]
-  pull_request:
-  workflow_dispatch:
-  release:
-    types: [ published ]
-
-permissions:
-  contents: read
-
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name != 'release' }}
-
+name: Probe
+on: push
 jobs:
-  build:
-    name: Build (${{ matrix.loader }})
+  probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
-        loader: [ fabric, neoforge, forge ]
+        variant: [ base, no_at, no_jij, none ]
     steps:
       - uses: actions/checkout@v7
-
-      # 1.21.x builds target Java 21, 26.x targets Java 25
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: |
             21
             25
-
-      # Caches ~/.gradle, including the decompiled Minecraft of every node
       - uses: gradle/actions/setup-gradle@v6
-        with:
-          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
-
-      - name: Build every Minecraft version
-        run: |
+      - run: |
           chmod +x gradlew
-          task="build$(echo '${{ matrix.loader }}' | sed 's/./\U&/')"
-          ./gradlew "$task" --stacktrace
-
-      - name: Upload jars
-        uses: actions/upload-artifact@v7
-        with:
-          name: ayame-paperdoll-${{ matrix.loader }}
-          path: build/libs/*/*.jar
-          if-no-files-found: error
-
-  release:
-    name: Attach jars to the release
-    needs: build
-    if: github.event_name == 'release'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v7
-        with:
-          path: jars
-          merge-multiple: true
-
-      - name: Upload release assets
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: find jars -name '*.jar' -print0 | xargs -0 gh release upload "${{ github.event.release.tag_name }}" --repo "${{ github.repository }}" --clobber
+          case "${{ matrix.variant }}" in
+            no_at) export PROBE_NO_AT=1 ;;
+            no_jij) export PROBE_NO_JIJ=1 ;;
+            none) export PROBE_NO_AT=1 PROBE_NO_JIJ=1 ;;
+          esac
+          ./gradlew :1.21.1-forge:compileJava --stacktrace 2>&1 | grep -v "DefaultConfigurableFileCollection" | tail -150
+          exit ${PIPESTATUS[0]}
