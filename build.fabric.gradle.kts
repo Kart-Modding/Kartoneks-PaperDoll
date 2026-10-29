@@ -112,7 +112,8 @@ publishMods {
     changelog = providers.environmentVariable("PUBLISH_CHANGELOG").orElse("")
     type = STABLE
     modLoaders.addAll("fabric", "quilt")
-    dryRun = providers.environmentVariable("MODRINTH_TOKEN").orNull == null
+    // A secret the repository doesn't have reaches CI as an empty string
+    dryRun = providers.environmentVariable("MODRINTH_TOKEN").orNull.isNullOrBlank()
 
     if (modrinthId.isNotEmpty()) modrinth {
         projectId = modrinthId
