@@ -26,7 +26,11 @@ val forgeVersion: String = sc.properties["deps.forge"]
 val mixinJava = "JAVA_${minOf(requiredJava.majorVersion.toInt(), 21)}"
 
 minecraft {
-    if (System.getenv("PROBE_NO_AT") == null) accessTransformers.from(accessTransformer)
+    when (System.getenv("PROBE_AT")) {
+        "setfrom" -> accessTransformers.setFrom(files(accessTransformer))
+        "default" -> accessTransformer = true
+        else -> accessTransformers.from(accessTransformer)
+    }
 
     // 26.1+ ships unobfuscated, older versions need Mojang's mappings applied.
     // Forge runs the game under Mojang's names on all of them, so the jar needs no remapping.
@@ -39,6 +43,11 @@ minecraft {
             args("--mixin.config=$mixinConfig")
         }
     }
+}
+
+if (System.getenv("PROBE_AT") == "default") {
+    // The generated META-INF/accesstransformer.cfg, where ForgeGradle looks for it: the first resources folder
+    sourceSets.main { resources.setSrcDirs(listOf(accessTransformer.parentFile.parentFile) + resources.srcDirs) }
 }
 
 repositories {
