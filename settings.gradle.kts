@@ -13,6 +13,8 @@ pluginManagement {
     // The NeoForge and Forge buildscripts are applied per node and can't pin plugin versions themselves
     plugins {
         id("net.neoforged.moddev") version "2.0.148"
+        // ForgeGradle needs it to apply access transformers to Minecraft, declared before ForgeGradle
+        id("net.minecraftforge.accesstransformers") version "5.0.3"
         id("net.minecraftforge.gradle") version "7.0.40"
         // ForgeGradle 7 leaves Jar-in-Jar to Forge's separate plugin
         id("net.minecraftforge.jarjar") version "0.2.3"

@@ -1,4 +1,6 @@
 plugins {
+    // Must come before ForgeGradle, which looks for it when it creates the `minecraft` extension
+    id("net.minecraftforge.accesstransformers")
     id("net.minecraftforge.gradle")
     // ForgeGradle 7 leaves Jar-in-Jar to Forge's separate plugin
     id("net.minecraftforge.jarjar")
