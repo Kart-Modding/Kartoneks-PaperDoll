@@ -4,6 +4,7 @@ plugins {
     id("net.minecraftforge.gradle")
     // ForgeGradle 7 leaves Jar-in-Jar to Forge's separate plugin
     id("net.minecraftforge.jarjar")
+    id("me.modmuss50.mod-publish-plugin")
 }
 
 // DO NOT set group = ...!
@@ -26,7 +27,8 @@ val forgeVersion: String = sc.properties["deps.forge"]
 val mixinJava = "JAVA_${minOf(requiredJava.majorVersion.toInt(), 21)}"
 
 minecraft {
-    accessTransformers.from(accessTransformer)
+    // Reads META-INF/accesstransformer.cfg from the first resources folder (set below)
+    setAccessTransformer(true)
 
     // 26.1+ ships unobfuscated, older versions need Mojang's mappings applied.
     // Forge runs the game under Mojang's names on all of them, so the jar needs no remapping.
@@ -39,6 +41,12 @@ minecraft {
             args("--mixin.config=$mixinConfig")
         }
     }
+}
+
+// The generated META-INF/accesstransformer.cfg goes first among the resources, where ForgeGradle looks
+// for it. (Handing ForgeGradle the file directly overflows the stack in its Mavenizer.)
+sourceSets.main {
+    resources.setSrcDirs(listOf(accessTransformer.parentFile.parentFile) + resources.srcDirs)
 }
 
 repositories {
@@ -96,8 +104,6 @@ tasks {
         filesMatching(listOf("META-INF/mods.toml", "*.mixins.json")) { expand(props) }
 
         exclude("fabric.mod.json", "META-INF/neoforge.mods.toml")
-        // META-INF/accesstransformer.cfg, generated for this version; Forge reads it by that name
-        from(accessTransformer.parentFile.parentFile)
     }
 
     jar {
@@ -126,5 +132,38 @@ tasks {
         // The jarJar task's output, never the -slim jar
         from(named("jarJar"))
         into(rootProject.layout.buildDirectory.file("libs/$modVersion"))
+    }
+}
+
+// Uploads this node's jar to Modrinth and CurseForge.
+// CI runs it when mod.version changes on main. Without MODRINTH_TOKEN it is a dry run, so a local
+// `./gradlew publishMods` only logs what it would upload.
+publishMods {
+    val modrinthId = findProperty("publish.modrinth")?.toString().orEmpty()
+    val curseforgeId = findProperty("publish.curseforge")?.toString().orEmpty()
+    val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_releases")
+        ?.asList().orEmpty().map { it.toString() }
+
+    file = tasks.named<Jar>("jarJar").flatMap { it.archiveFile }
+    displayName = "$modName ${project.version} (Forge)"
+    version = project.version.toString()
+    changelog = providers.environmentVariable("PUBLISH_CHANGELOG").orElse("")
+    type = STABLE
+    modLoaders.add("forge")
+    dryRun = providers.environmentVariable("MODRINTH_TOKEN").orNull == null
+
+    if (modrinthId.isNotEmpty()) modrinth {
+        projectId = modrinthId
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        minecraftVersions.addAll(compatibleVersions)
+    }
+
+    if (curseforgeId.isNotEmpty()) curseforge {
+        projectId = curseforgeId
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        minecraftVersions.addAll(compatibleVersions)
+        javaVersions.add(requiredJava)
+        clientRequired = true
+        serverRequired = false
     }
 }

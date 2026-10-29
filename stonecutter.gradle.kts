@@ -16,6 +16,12 @@ for (loader in listOf("fabric", "neoforge", "forge")) {
         group = "project"
         dependsOn(subprojects.filter { it.name.endsWith("-$loader") }.map { "${it.path}:buildAndCollect" })
     }
+
+    // Uploads them to Modrinth and CurseForge (a dry run without MODRINTH_TOKEN)
+    tasks.register("publish${loader.replaceFirstChar(Char::uppercase)}") {
+        group = "publishing"
+        dependsOn(subprojects.filter { it.name.endsWith("-$loader") }.map { "${it.path}:publishMods" })
+    }
 }
 
 // See https://stonecutter.kikugie.dev/wiki/config/params
