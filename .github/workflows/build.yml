@@ -1,71 +1,75 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+name: Build
 
-name: Java CI with Gradle
-
+# Builds the mod for every Minecraft version (1.21.1 - 26.3) on Fabric (also runs on Quilt),
+# NeoForge and Forge: one job per loader, every version in it. Publishing a GitHub release
+# attaches all the jars to it.
 on:
   push:
     branches: [ "**" ]
   pull_request:
   workflow_dispatch:
+  release:
+    types: [ published ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'release' }}
 
 jobs:
   build:
+    name: Build (${{ matrix.loader }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        loader: [ fabric, neoforge, forge ]
+    steps:
+      - uses: actions/checkout@v7
 
+      # 1.21.x builds target Java 21, 26.x targets Java 25
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: |
+            21
+            25
+
+      # Caches ~/.gradle, including the decompiled Minecraft of every node
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      - name: Build every Minecraft version
+        run: |
+          chmod +x gradlew
+          task="build$(echo '${{ matrix.loader }}' | sed 's/./\U&/')"
+          ./gradlew "$task" --stacktrace
+
+      - name: Upload jars
+        uses: actions/upload-artifact@v7
+        with:
+          name: ayame-paperdoll-${{ matrix.loader }}
+          path: build/libs/*/*.jar
+          if-no-files-found: error
+
+  release:
+    name: Attach jars to the release
+    needs: build
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-
+      contents: write
     steps:
-      - uses: actions/checkout@v6
-      - name: Set up JDK 25
-        uses: actions/setup-java@v5
+      - uses: actions/download-artifact@v7
         with:
-          java-version: '25'
-          distribution: 'temurin'
+          path: jars
+          merge-multiple: true
 
-      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
-
-      - name: Build Mod
-        run: sh build.sh
-
-      - name: Upload Fabric/Quilt jar
-        uses: actions/upload-artifact@v7
-        with:
-          name: PaperDoll-fabric-quilt-build${{ github.run_number }}
-          path: fabric/build/libs/*.jar
-          if-no-files-found: error
-
-      - name: Upload NeoForge jar
-        uses: actions/upload-artifact@v7
-        with:
-          name: PaperDoll-neoforge-build${{ github.run_number }}
-          path: neoforge/build/libs/*.jar
-          if-no-files-found: error
-
-      - name: Upload Forge jar
-        uses: actions/upload-artifact@v7
-        with:
-          name: PaperDoll-forge-build${{ github.run_number }}
-          path: forge/build/libs/*.jar
-          if-no-files-found: error
-
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-    #   with:
-    #     gradle-version: '8.5'
-    #
-    # - name: Build with Gradle 8.5
-    #   run: gradle build
-
-
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: find jars -name '*.jar' -print0 | xargs -0 gh release upload "${{ github.event.release.tag_name }}" --repo "${{ github.repository }}" --clobber

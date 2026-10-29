@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "package": "org.ayamemc.ayamepaperdoll.mixin",
+    "compatibilityLevel": "${java}",
+    "minVersion": "0.8",
+    "client": [
+        ${clientMixins}
+    ],
+    "mixins": [
+        "patch.EntityMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

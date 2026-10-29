@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "LGPL-3.0-or-later"
+issueTrackerURL = "https://github.com/Kart-Modding/Kartoneks-PaperDoll/issues"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${name}"
+displayURL = "https://modrinth.com/mod/ayame-paperdoll"
+authors = "LucunJi (original author), HappyRespawnanchor"
+credits = "Fallen_Breath, X-Green, altrisi, plusls, pertaz, LightgraycaAT, Kartonekk"
+description = '''Highly configurable PaperDoll mod. Forked from Extra Player Renderer.'''
+logoFile = "icon.png"
+logoBlur = false
+
+[[dependencies.${id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neoforge},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft}"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config = "ayame-paperdoll.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "Highly configurable PaperDoll mod. Forked from Extra Player Renderer.",
+  "authors": [
+    "Lucun_Ji(Original author)",
+    "HappyRespawnanchor"
+  ],
+  "contributors": [
+    "Fallen_Breath",
+    "X-Green",
+    "altrisi",
+    "plusls",
+    "pertaz",
+    "LightgraycaAT",
+    "Kartonekk"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/ayame-paperdoll",
+    "sources": "https://github.com/Kart-Modding/Kartoneks-PaperDoll",
+    "issues": "https://github.com/Kart-Modding/Kartoneks-PaperDoll/issues"
+  },
+  "license": "LGPL-3.0-or-later",
+  "icon": "assets/ayame_paperdoll/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollFabric"
+    ],
+    "modmenu": [
+      "org.ayamemc.ayamepaperdoll.fabric.AyamePaperDollModMenuApiImpl"
+    ]
+  },
+  "mixins": [
+    "ayame-paperdoll.mixins.json"
+  ],
+  "accessWidener": "ayame-paperdoll.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "${minecraft}",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.modrinth": "https://modrinth.com/mod/ayame-paperdoll",
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll"
+      }
+    }
+  }
+}

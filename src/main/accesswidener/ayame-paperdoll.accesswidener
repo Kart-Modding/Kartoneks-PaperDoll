@@ -1,0 +1,31 @@
+accessWidener v2 ${namespace}
+
+# Read by gradle/target.gradle.kts: a block starting with "# @since X" and/or "# @until X" only
+# applies to those Minecraft versions (both ends included). NeoForge and Forge get the same
+# entries as an access transformer.
+accessible field net/minecraft/world/entity/Entity vehicle Lnet/minecraft/world/entity/Entity;
+accessible field net/minecraft/world/entity/LivingEntity fallFlyTicks I
+accessible field net/minecraft/client/player/LocalPlayer crouching Z
+accessible method net/minecraft/world/entity/Entity setSharedFlag (IZ)V
+accessible method net/minecraft/world/entity/Entity getSharedFlag (I)Z
+
+# @until 26.2
+accessible field net/minecraft/world/entity/LivingEntity swimAmount F
+accessible field net/minecraft/world/entity/LivingEntity swimAmountO F
+
+# @since 1.21.6
+# @until 1.21.11
+accessible class net/minecraft/client/gui/GuiGraphics$ScissorStack
+
+# @since 26.1
+accessible method net/minecraft/client/gui/render/pip/PictureInPictureRenderer prepareTexturesAndProjection (ZII)V
+
+# @since 26.1
+# @until 26.2
+accessible field net/minecraft/client/gui/render/pip/PictureInPictureRenderer textureView Lcom/mojang/blaze3d/textures/GpuTextureView;
+accessible field net/minecraft/client/gui/render/pip/PictureInPictureRenderer depthTextureView Lcom/mojang/blaze3d/textures/GpuTextureView;
+
+# @since 26.3
+accessible field net/minecraft/client/gui/render/pip/PictureInPictureRenderer textureView Lcom/mojang/renderpearl/api/textures/GpuTextureView;
+accessible field net/minecraft/client/gui/render/pip/PictureInPictureRenderer depthTextureView Lcom/mojang/renderpearl/api/textures/GpuTextureView;
+accessible field net/minecraft/client/renderer/GameRenderer useUiLightmap Z
