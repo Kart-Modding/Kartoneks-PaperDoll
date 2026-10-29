@@ -18,6 +18,9 @@
 #     along with Ayame PaperDoll.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+# Stop at the first failing command, so CI goes red when the build fails
+set -e
+
 chmod +x gradlew
 # ./gradlew runDatagen &      # 将命令放入后台运行
 # pid=$!              # 获取该命令的PID
@@ -25,11 +28,10 @@ chmod +x gradlew
 # kill -9 $pid       # 60s后强制kill
 
 ./gradlew build
-mkdir result
+mkdir -p result
 cp -r fabric/build/libs/* result
 cp -r neoforge/build/libs/* result
 cp -r forge/build/libs/* result
-cp -r common/build/libs/* result
 cd result
 echo "Unstable Nightly Development Build, DO NOT Use for Normal Play!" > " A_Unstable Nightly Development Build，DO NOT Use for Normal Play！.txt"
 echo "不稳定每夜开发构建，切勿用于正常游玩！" > " A不稳定每夜开发构建，切勿用于正常游玩！.txt"

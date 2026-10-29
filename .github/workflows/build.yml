@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ "*" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -36,11 +36,26 @@ jobs:
       - name: Build Mod
         run: sh build.sh
 
-      - name: Upload JAR artifacts
+      - name: Upload Fabric/Quilt jar
         uses: actions/upload-artifact@v7
         with:
-          name: Ayame_PaperDoll_nightly_unstable
-          path: ./result/ # or path/to/artifact
+          name: PaperDoll-fabric-quilt-build${{ github.run_number }}
+          path: fabric/build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Upload NeoForge jar
+        uses: actions/upload-artifact@v7
+        with:
+          name: PaperDoll-neoforge-build${{ github.run_number }}
+          path: neoforge/build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Upload Forge jar
+        uses: actions/upload-artifact@v7
+        with:
+          name: PaperDoll-forge-build${{ github.run_number }}
+          path: forge/build/libs/*.jar
+          if-no-files-found: error
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
