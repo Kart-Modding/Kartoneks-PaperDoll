@@ -39,11 +39,6 @@ minecraft {
     }
 }
 
-// Forge takes a mod from one place: put the resources next to the classes so a dev run sees one
-sourceSets.main {
-    output.setResourcesDir(java.destinationDirectory)
-}
-
 repositories {
     minecraft.mavenizer(this)
     maven(fg.forgeMaven)
