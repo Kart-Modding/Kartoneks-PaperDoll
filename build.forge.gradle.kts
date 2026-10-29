@@ -28,7 +28,7 @@ val mixinJava = "JAVA_${minOf(requiredJava.majorVersion.toInt(), 21)}"
 minecraft {
     when (System.getenv("PROBE_AT")) {
         "setfrom" -> accessTransformers.setFrom(files(accessTransformer))
-        "default" -> accessTransformer = true
+        "default" -> setAccessTransformer(true)
         else -> accessTransformers.from(accessTransformer)
     }
 
