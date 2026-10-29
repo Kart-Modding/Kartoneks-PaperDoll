@@ -72,7 +72,6 @@ import org.ayamemc.ayamepaperdoll.hud.ModRenderer;
 @Mod(value = AyamePaperDoll.MOD_ID, dist = Dist.CLIENT)
 public final class AyamePaperDollNeoForge {
     public AyamePaperDollNeoForge(IEventBus modBus) {
-        // Run our NeoForge setup.
 *///?}
         //? if neoforge && <26.1 {
         /*CommonInterfaceInstances.keyHelper = KeyMapping::getKey;
@@ -103,9 +102,6 @@ public final class AyamePaperDollNeoForge {
         event.register(
                 ModRenderState.class,
     *///?}
-                //? if neoforge && >=1.21.6 && <26.3 {
-                /*// A factory that takes in the `MultiBufferSource.BufferSource` and returns the PiP renderer
-                *///?}
                 //? if neoforge && >=26.2 {
                 /*()-> new ModRenderer(Minecraft.getInstance().getEntityRenderDispatcher())
                 *///?}
@@ -117,9 +113,6 @@ public final class AyamePaperDollNeoForge {
         //? if neoforge && >=1.21.6 {
         /*);
         *///?}
-//? if neoforge && <1.21.6 {
-/*
-*///?}
     //? if neoforge {
     /*}
 

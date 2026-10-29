@@ -110,23 +110,13 @@ public abstract class EditBoxMixin extends AbstractWidget {
             //? if >=1.21.3 {
             int color = ARGB.white(this.alpha);
             //?}
-//? if >=1.21.3 && <26.3 {
-/*
-*///?}
             //? if <1.21.3 {
             /*instance.setColor(1.0f, 1.0f, 1.0f, this.alpha);
             *///?}
-//? if >=1.21.5 && <26.3 {
-/*//            RenderSystem.enableBlend();
-//            RenderSystem.enableDepthTest();
-*///?}
             //? if <1.21.5 {
             /*RenderSystem.enableBlend();
             RenderSystem.enableDepthTest();
             *///?}
-//? if >=1.21.3 && <26.3 {
-/*
-*///?}
             //? if >=26.1 {
             instance.blitSprite(renderPipeline, retextured.retexture(location), x, y, width, height, color);
             //?}

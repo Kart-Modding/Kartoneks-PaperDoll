@@ -189,24 +189,7 @@ public class PaperDollRenderer {
 
     }
 
-    //? if <26.3 {
-    /*// 这会导致织布机渲染问题，不要使用↓
-    // follow convention in LayeredDrawer#renderInternal
-    // guiGraphics.pose().translate(0, 0, 200);
-    *///?}
-//? if >=1.21.6 && <26.3 {
-/*
-*///?}
     //
-    //? if >=26.1 {
-    // * Mimics the code in {@link InventoryScreen#extractEntityInInventoryFollowsMouse}
-    //?}
-    //? if >=1.21.11 && <26.1 {
-    /*// * Mimics the code in {@link InventoryScreen#renderEntityInInventoryFollowsMouse}
-    *///?}
-    //? if <1.21.11 {
-    /*// * Mimics the code in {@link InventoryScreen#renderEntityInInventory}
-    *///?}
     //
     //? if >=26.1 {
     public void extractPaperdoll(GuiGraphicsExtractor graphics, float a) {
@@ -476,9 +459,6 @@ public class PaperDollRenderer {
                                   //? if <26.1 {
                                   /*Vector3f offset, double lightDegree, float partialTicks, GuiGraphics guiGraphics) {
                                   *///?}
-        //? if >=1.21.6 && <26.1 {
-        /*// 其余渲染逻辑保持不变...
-        *///?}
         //? if <26.1 {
         /*EntityRenderDispatcher entityRenderDispatcher = minecraft.getEntityRenderDispatcher();
         *///?}
@@ -496,12 +476,8 @@ public class PaperDollRenderer {
         /*Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushMatrix();
         modelViewStack.scale(mirror ? -1 : 1, 1, -1);
-        // IDK what shit Mojang made but let's add 180 deg to restore the old behavior
         modelViewStack.rotateY((float) Math.toRadians(lightDegree + 180));
         *///?}
-//? if <26.1 {
-/*
-*///?}
         //? if >=1.21.6 && <26.1 {
         /*EntityRenderState state = entityRenderer.createRenderState(targetEntity, partialTicks);
         *///?}
@@ -528,12 +504,8 @@ public class PaperDollRenderer {
         /*state.shadowPieces.clear();
         state.outlineColor = 0;
         *///?}
-//? if <26.1 {
-/*
-*///?}
         //? if >=1.21.6 && <26.1 {
-        /*// 启用Tweakeroo FreeCam功能时候不显示自己的 nameTag
-        if (state.nameTag != null && minecraft.player != null) {
+        /*if (state.nameTag != null && minecraft.player != null) {
             if ( minecraft.player.getName().getString().equals(state.nameTag.getString())) {
                 state.nameTag = null;
             }
@@ -552,30 +524,18 @@ public class PaperDollRenderer {
         //?}
         //? if >=1.21.3 && <1.21.6 {
         /*Quaternionf xyzRot = // (rotationMode == RotationMode.SMOOTH_LOCK) ?
-        // new Quaternionf().rotateXYZ(
         *///?}
         //? if <1.21.3 {
         /*Quaternionf xyzRot;
-        // if (rotationMode == RotationMode.SMOOTH_LOCK && !(targetEntity instanceof Boat)) {
-        // xyzRot = new Quaternionf().rotateXYZ(
         *///?}
-        //? if <1.21.6 {
-        /*// (float) Math.toRadians(CONFIGS.rotationX.getValue()),
-        // (float) ((targetEntity.getYRot() + CONFIGS.rotationY.getValue() - 180) * ((float) Math.PI / 180F)),
-        *///?}
-        //? if >=1.21.3 && <1.21.6 {
-        /*// (float) Math.toRadians(CONFIGS.rotationZ.getValue()))
-        // :
-                new Quaternionf().rotateXYZ(
+                //? if >=1.21.3 && <1.21.6 {
+                /*new Quaternionf().rotateXYZ(
                         (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationY.getValue()),
                         (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
-        *///?}
+                *///?}
         //? if <1.21.3 {
-        /*// (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
-        // } else {
-        // 8}
-        xyzRot = new Quaternionf().rotateXYZ(
+        /*xyzRot = new Quaternionf().rotateXYZ(
                 (float) Math.toRadians(CONFIGS.rotationX.getValue()),
                 (float) Math.toRadians(CONFIGS.rotationY.getValue()),
                 (float) Math.toRadians(CONFIGS.rotationZ.getValue()));
@@ -615,10 +575,6 @@ public class PaperDollRenderer {
             }
             //?}
         }
-        //? if >=26.1 {
-
-        // different renderState, offset, pose; same rotation, pos, size
-        //?}
         //? if >=26.2 {
         ((GuiGraphicsExtractorInterface)graphics).ayame_paperDoll$addPicturesInPictureState(
         //?}
@@ -689,9 +645,6 @@ public class PaperDollRenderer {
         ) ? targetEntity.getYRot() : 0.0F;
 
         *///?}
-        //? if <1.21.6 {
-        /*// TODO: 修复矿车锁定旋转时不被锁定的问题
-        *///?}
         //? if >=1.21.5 && <1.21.6 {
         /*guiGraphics.drawSpecial(multiBufferSource -> entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks)));
         *///?}
@@ -704,17 +657,12 @@ public class PaperDollRenderer {
                 () -> entityRenderDispatcher.render(targetEntity, offset.x, offset.y, offset.z, rotationYaw, partialTicks, poseStack, bufferSource, getLight(targetEntity, partialTicks))
         );
         *///?}
-        //? if <1.21.6 {
-/*
-        // 事实证明1.21.3+只需一直禁用剔除，镜像也不会导致什么问题
-        *///?}
         //? if <1.21.5 {
         /*((BufferSourceMixinInterface) bufferSource).ayame_PaperDoll$setForceDisableCulling(true);
         *///?}
         //? if <1.21.6 {
         /*bufferSource.endBatch();
 
-        // do not need to restore this value in fact
         entityRenderDispatcher.setRenderShadow(true);
         entityRenderDispatcher.setRenderHitBoxes(renderHitbox);
 
@@ -727,9 +675,6 @@ public class PaperDollRenderer {
         /*Lighting.setupFor3DItems();
     }
         *///?}
-    //? if >=26.1 {
-    //also check =InventoryScreen#extractRenderState
-    //?}
     //? if >=26.3 {
     private EntityRenderState extractRenderState(Entity targetEntity, float a, boolean forceStanding){
     //?}
@@ -746,14 +691,10 @@ public class PaperDollRenderer {
         //?}
         //? if >=26.3 {
 
-        // disable fire effect and text rendered on entity
         state.scoreText = null;
         state.nameTag = null;
         state.displayFireAnimation = false;
 
-        // With improved transparency (OIT) on, the boat's water patch uses the depth-only OIT_WATER_MASK
-        // pipeline, which has no color target and crashes our single-color-attachment render pass.
-        // The patch only hides water inside the hull, so it's useless on the HUD anyway.
         if (state instanceof BoatRenderState boatState) {
             boatState.isUnderWater = true;
         }

@@ -127,9 +127,5 @@ public abstract class AbstractSliderButtonMixin {
             /*original.call(instance, sprite, x, y, width, height);
             *///?}
         }
-//? if <26.3 {
-/*
-
-*///?}
     }
 }

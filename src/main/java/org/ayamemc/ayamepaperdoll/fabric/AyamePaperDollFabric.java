@@ -62,7 +62,6 @@ import org.ayamemc.ayamepaperdoll.hud.ModRenderer;
 public class AyamePaperDollFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        // Run our Fabric setup.
 //?}
         //? if fabric && >=26.1 {
         KeyMappingHelper.registerKeyMapping(AyamePaperDoll.SHOW_PAPERDOLL_KEY);

@@ -146,18 +146,12 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
     //? if >=26.2 {
     private final SubmitNodeStorage submitNodeStorage = new SubmitNodeStorage();
     //?}
-//? if >=26.1 && <26.2 {
-/*
-*///?}
     //? if >=26.3 {
     private int width, height, guiScale;
     //?}
     //? if >=26.1 && <26.3 {
     /*private int width, height;
     *///?}
-//? if >=1.21.6 {
-
-//?}
     //? if >=26.2 {
     public ModRenderer(EntityRenderDispatcher entityRenderDispatcher) {
     //?}
@@ -239,9 +233,6 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         //? if >=26.1 && <26.3 {
         /*poseStack.mulPose(renderState.rotation());
         *///?}
-//? if >=1.21.6 && <26.1 {
-/*
-*///?}
         //? if >=26.2 {
         this.entityRenderDispatcher.submit(renderState.renderState(), camerarenderstate, vector3f.x, vector3f.y, vector3f.z, poseStack, submitNodeCollector);
         //?}
@@ -262,9 +253,6 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         return "ayame-paperdoll";
     }
     //?}
-//? if >=1.21.11 {
-
-//?}
     //? if >=26.2 {
     public void prepare(ModRenderState renderState, GuiRenderState guiRenderState, FeatureRenderDispatcher featureRenderDispatcher, int guiScale) {
     //?}

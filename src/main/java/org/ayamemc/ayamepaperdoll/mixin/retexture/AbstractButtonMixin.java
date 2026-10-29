@@ -128,8 +128,5 @@ public abstract class AbstractButtonMixin {
             /*original.call(instance, sprite, x, y, width, height);
             *///?}
         }
-//? if <26.3 {
-/*
-*///?}
     }
 }

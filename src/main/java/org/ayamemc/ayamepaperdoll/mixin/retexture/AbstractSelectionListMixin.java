@@ -43,9 +43,6 @@ import java.util.function.Function;
 /*
 @Mixin(AbstractSelectionList.class)
 public abstract class AbstractSelectionListMixin {
-    //
-    // * This is an incomplete implementation. The background and separator/header/footer are untouched.
-    //
     @WrapOperation(method = "renderWidget", at = {
 *///?}
             //? if >=1.21.3 && <1.21.4 {

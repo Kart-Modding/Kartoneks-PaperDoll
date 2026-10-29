@@ -61,9 +61,6 @@ import java.util.function.Function;
 
 @Mixin(AbstractScrollArea.class)
 public abstract class AbstractScrollAreaMixin {
-    //
-    // * This is an incomplete implementation. The background and separator/header/footer are untouched.
-    //
 //?}
     //? if >=26.1 {
     @WrapOperation(method = "extractScrollbar", at = {
@@ -134,9 +131,6 @@ public abstract class AbstractScrollAreaMixin {
         //? if >=1.21.4 {
         }
         //?}
-//? if >=1.21.4 && <26.3 {
-/*
-*///?}
     //? if >=1.21.4 {
     }
 }

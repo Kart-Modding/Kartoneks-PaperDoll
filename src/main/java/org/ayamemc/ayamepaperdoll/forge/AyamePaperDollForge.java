@@ -68,7 +68,6 @@ import org.ayamemc.ayamepaperdoll.handler.EventHandler;
 @Mod(AyamePaperDoll.MOD_ID)
 public final class AyamePaperDollForge {
     public AyamePaperDollForge(FMLJavaModLoadingContext context) {
-        // Run our Forge setup.
 *///?}
         //? if forge && <26.1 {
         /*CommonInterfaceInstances.keyHelper = KeyMapping::getKey;
@@ -95,9 +94,6 @@ public final class AyamePaperDollForge {
         context.getModEventBus().addListener(AyamePaperDollForge::registerHudLayer);
         MinecraftForge.EVENT_BUS.addListener(AyamePaperDollForge::onClientTick);
         *///?}
-//? if forge {
-/*
-*///?}
         //? if forge && >=1.21.6 {
         /*context.registerExtensionPoint(
         *///?}
@@ -124,7 +120,6 @@ public final class AyamePaperDollForge {
     /*}
 
     private static void registerHudLayer(AddGuiOverlayLayersEvent event) {
-        // Same spot as on Fabric: right after the vignette/spyglass/portal overlays
         event.getLayeredDraw().addAbove(
                 ForgeLayeredDraw.PRE_SLEEP_STACK,
                 AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),

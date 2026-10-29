@@ -43,7 +43,6 @@ public abstract class BufferSourceMixin implements BufferSourceMixinInterface {
         this.ayame_PaperDoll$forceDisableCulling = disableCulling;
     }
 
-    // strangely, WrapMethod has no effect
     @WrapOperation(method = "endBatch(Lnet/minecraft/client/renderer/RenderType;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch(Lnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/BufferBuilder;)V"))
     void disableCulling(MultiBufferSource.BufferSource instance, RenderType layer, BufferBuilder builder, Operation<Void> original) {

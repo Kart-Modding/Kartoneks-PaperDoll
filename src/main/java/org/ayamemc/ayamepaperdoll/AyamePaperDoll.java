@@ -100,22 +100,14 @@ public final class AyamePaperDoll {
             //? if <1.21.9 {
             /*"key.%s.category".formatted(MOD_ID));
             *///?}
-//? if <26.1 {
-/*
-*///?}
     public static final Configs CONFIGS = new Configs();
     public static final ConfigPersistence CONFIG_PERSISTENCE = new GsonConfigPersistence(Path.of("config/" + MOD_ID + "_v0.json"));
-//? if >=26.1 && <26.3 {
-/*
-*///?}
     //? if >=26.2 && <26.3 {
-    /*// mainly a copy of vanilla's RenderPipeline, see RenderPipelines.GUI_TEXTURED_SNIPPET
-    private static final RenderPipeline.Snippet GUI_TEXTURED_SNIPPET_NEW = RenderPipeline.builder()
+    /*private static final RenderPipeline.Snippet GUI_TEXTURED_SNIPPET_NEW = RenderPipeline.builder()
             .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION)
     *///?}
     //? if >=26.1 && <26.2 {
-    /*// mainly a copy of vanilla's RenderPipeline
-    private static final RenderPipeline.Snippet MATRICES_PROJECTION_SNIPPET = RenderPipeline.builder()
+    /*private static final RenderPipeline.Snippet MATRICES_PROJECTION_SNIPPET = RenderPipeline.builder()
             .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
             .withUniform("Projection", UniformType.UNIFORM_BUFFER)
             .buildSnippet();
@@ -141,12 +133,6 @@ public final class AyamePaperDoll {
             //? if >=26.1 && <26.3 {
             /*.buildSnippet();
             *///?}
-    //? if >=26.2 && <26.3 {
-    /*// see RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA
-    *///?}
-//? if >=26.1 && <26.2 {
-/*
-*///?}
     //? if >=26.1 && <26.3 {
     /*public static final RenderPipeline MOD_PIPELINE = RenderPipeline.builder(GUI_TEXTURED_SNIPPET_NEW)
             .withLocation(path("pipeline/mod_pipeline"))
