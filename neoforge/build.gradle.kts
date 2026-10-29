@@ -27,11 +27,6 @@ architectury {
     neoForge()
 }
 
-loom {
-    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
-    neoForge.convertAccessWideners(tasks.shadowJar , "ayame-paperdoll.accesswidener")
-}
-
 val common by configurations.creating {
     isCanBeResolved = true
     isCanBeConsumed = false

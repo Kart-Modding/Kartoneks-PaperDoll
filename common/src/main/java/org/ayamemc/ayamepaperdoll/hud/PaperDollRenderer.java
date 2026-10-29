@@ -40,6 +40,9 @@ import net.minecraft.world.level.LightLayer;
 import org.ayamemc.ayamepaperdoll.config.Configs;
 import org.ayamemc.ayamepaperdoll.config.Configs.RotationMode;
 import org.ayamemc.ayamepaperdoll.hud.DataBackup.DataBackupEntry;
+import org.ayamemc.ayamepaperdoll.mixin.accessor.EntityAccessor;
+import org.ayamemc.ayamepaperdoll.mixin.accessor.LivingEntityAccessor;
+import org.ayamemc.ayamepaperdoll.mixin.accessor.LocalPlayerAccessor;
 import org.ayamemc.ayamepaperdoll.mixininterface.GuiGraphicsExtractorInterface;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
@@ -54,12 +57,12 @@ public class PaperDollRenderer {
             new DataBackupEntry<>(LivingEntity::getPose, LivingEntity::setPose),
             // required for player on client side
             new DataBackupEntry<>(Entity::isCrouching, (e, flag) -> {
-                if (e instanceof LocalPlayer player) player.crouching = flag;
+                if (e instanceof LocalPlayer player) ((LocalPlayerAccessor) player).setCrouching(flag);
             }),
-            new DataBackupEntry<>(LivingEntity::isFallFlying, (e, flag) -> e.setSharedFlag(7, flag)),
-            new DataBackupEntry<>(LivingEntity::getFallFlyingTicks, (e, ticks) -> e.fallFlyTicks = ticks),
+            new DataBackupEntry<>(LivingEntity::isFallFlying, (e, flag) -> ((EntityAccessor) e).callSetSharedFlag(7, flag)),
+            new DataBackupEntry<>(LivingEntity::getFallFlyingTicks, (e, ticks) -> ((LivingEntityAccessor) e).setFallFlyTicks(ticks)),
 
-            new DataBackupEntry<>(LivingEntity::getVehicle, (e, vehicle) -> e.vehicle = vehicle),
+            new DataBackupEntry<>(LivingEntity::getVehicle, (e, vehicle) -> ((EntityAccessor) e).setVehicle(vehicle)),
 
             new DataBackupEntry<>(e -> e.yBodyRotO, (e, yaw) -> e.yBodyRotO = yaw),
             new DataBackupEntry<>(e -> e.yBodyRot, (e, yaw) -> e.yBodyRot = yaw),
@@ -202,12 +205,12 @@ public class PaperDollRenderer {
 
         if (forceStanding) {
             if (targetEntity instanceof LocalPlayer player) {
-                player.crouching = false;
+                ((LocalPlayerAccessor) player).setCrouching(false);
             }
-            targetEntity.vehicle = null;
+            ((EntityAccessor) targetEntity).setVehicle(null);
 
-            targetEntity.setSharedFlag(7, false);
-            targetEntity.fallFlyTicks = 0;
+            ((EntityAccessor) targetEntity).callSetSharedFlag(7, false);
+            ((LivingEntityAccessor) targetEntity).setFallFlyTicks(0);
         }
 
         // FIXME: NEVERFIX - glitch when the mouse moves too fast, caused by lerping a warped value, it is possibly wrapped in LivingEntity#tick or LivingEntity#turnHead
@@ -298,6 +301,13 @@ public class PaperDollRenderer {
         state.scoreText = null;
         state.nameTag = null;
         state.displayFireAnimation = false;
+
+        // With improved transparency (OIT) on, the boat's water patch uses the depth-only OIT_WATER_MASK
+        // pipeline, which has no color target and crashes our single-color-attachment render pass.
+        // The patch only hides water inside the hull, so it's useless on the HUD anyway.
+        if (state instanceof BoatRenderState boatState) {
+            boatState.isUnderWater = true;
+        }
 
         if (state instanceof LivingEntityRenderState livingState) {
             if (!CONFIGS.hurtFlash.getValue()) livingState.hasRedOverlay = false;

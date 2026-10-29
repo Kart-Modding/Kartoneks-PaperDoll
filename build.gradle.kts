@@ -31,25 +31,32 @@ architectury {
     minecraft = project.findProperty("minecraft_version") as String
 }
 
+// Forge is built with ForgeGradle instead of Architectury Loom, see forge/build.gradle.kts
+val loomProjects = subprojects.filter { it.name != "forge" }
+
 allprojects {
-    apply(plugin = "architectury-plugin")
     apply(plugin = "java")
 
     base.archivesName = rootProject.findProperty("mod_archives_name") as String
     group = rootProject.findProperty("mod_maven_group") as String
     version = rootProject.findProperty("mod_version") as String
+
+    if (name != "forge") apply(plugin = "architectury-plugin")
+}
+
+configure(loomProjects) {
+    apply(plugin = "dev.architectury.loom-no-remap")
+
+    dependencies {
+        "minecraft"("com.mojang:minecraft:${rootProject.findProperty("minecraft_version")}")
+    }
 }
 
 subprojects {
-    apply(plugin = "dev.architectury.loom-no-remap")
     apply(plugin = "maven-publish")
 
     base {
         archivesName = "${rootProject.findProperty("mod_archives_name")}-${project.name}"
-    }
-
-    dependencies {
-        "minecraft"("com.mojang:minecraft:${rootProject.findProperty("minecraft_version")}")
     }
 
     tasks.withType<Jar> {

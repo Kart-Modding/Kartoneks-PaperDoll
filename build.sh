@@ -28,6 +28,7 @@ chmod +x gradlew
 mkdir result
 cp -r fabric/build/libs/* result
 cp -r neoforge/build/libs/* result
+cp -r forge/build/libs/* result
 cp -r common/build/libs/* result
 cd result
 echo "Unstable Nightly Development Build, DO NOT Use for Normal Play!" > " A_Unstable Nightly Development Build，DO NOT Use for Normal Play！.txt"

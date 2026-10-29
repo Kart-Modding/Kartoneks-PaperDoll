@@ -10,6 +10,7 @@ build/*
 /fabric/.gradle/
 /fabric/build/
 /fabric/run/
+/forge/run/
 /run/
 /common/src/main/generated/
 /neoforge/src/main/generated/

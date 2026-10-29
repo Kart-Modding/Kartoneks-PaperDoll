@@ -29,11 +29,6 @@ architectury {
 
 }
 
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-    injectAccessWidener(tasks.shadowJar)
-}
-
 val common by configurations.creating {
     isCanBeResolved = true
     isCanBeConsumed = false

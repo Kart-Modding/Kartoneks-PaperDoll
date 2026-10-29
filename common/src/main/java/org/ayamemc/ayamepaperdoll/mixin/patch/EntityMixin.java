@@ -32,17 +32,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityMixinInterface {
     @Unique
-    private final Entity ayame_PaperDoll$entity = (Entity) (Object) this;
-    @Unique
     private boolean ayame_PaperDoll$isSSitting = false;
     @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;ZZ)Z", at = @At("RETURN"))
     private void onStartRiding(Entity entity, boolean bl, boolean bl2, CallbackInfoReturnable<Boolean> cir) {
-        ayame_PaperDoll$entity.ayame_paperdoll$setSitting(cir.getReturnValue());
+        this.ayame_paperdoll$setSitting(cir.getReturnValue());
     }
 
     @Inject(method = "removeVehicle", at = @At("HEAD"))
     private void onRemoveVehicle(CallbackInfo ci) {
-        ayame_PaperDoll$entity.ayame_paperdoll$setSitting(false);
+        this.ayame_paperdoll$setSitting(false);
     }
 
     @Override

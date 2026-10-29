@@ -29,7 +29,6 @@ import com.mojang.renderpearl.api.textures.FilterMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeStorage;
@@ -38,6 +37,8 @@ import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import org.ayamemc.ayamepaperdoll.mixin.accessor.GameRendererAccessor;
+import org.ayamemc.ayamepaperdoll.mixin.accessor.PictureInPictureRendererAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
@@ -96,7 +97,8 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
             this.height = height;
             this.guiScale = guiScale;
         }
-        this.prepareTexturesAndProjection(needsAResize, width * guiScale, height * guiScale);
+        PictureInPictureRendererAccessor pip = (PictureInPictureRendererAccessor) this;
+        pip.callPrepareTexturesAndProjection(needsAResize, width * guiScale, height * guiScale);
         Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushMatrix();
         modelViewStack.rotateY(renderState.lightDegree());
@@ -109,19 +111,19 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         posestack.scale(f, f, -f);
         this.renderToTexture(renderState, posestack, this.submitNodeStorage);
 
-        GameRenderer gameRenderer = Minecraft.getInstance().gameRenderer;
-        boolean temp = gameRenderer.useUiLightmap;
-        gameRenderer.useUiLightmap = false;
+        GameRendererAccessor gameRenderer = (GameRendererAccessor) Minecraft.getInstance().gameRenderer;
+        boolean temp = gameRenderer.getUseUiLightmap();
+        gameRenderer.setUseUiLightmap(false);
 
         try (
             FeatureRenderDispatcher.PreparedFrame frame = featureRenderDispatcher.prepareFrame(this.submitNodeStorage);
-            RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Picture in picture", this.textureView, Optional.empty(), this.depthTextureView, OptionalDouble.empty());
+            RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Picture in picture", pip.getTextureView(), Optional.empty(), pip.getDepthTextureView(), OptionalDouble.empty());
         ) {
             RenderSystem.bindDefaultUniforms(renderPass);
             FeatureRenderDispatcher.renderAllFeatures(renderPass, frame);
         }
 
-        gameRenderer.useUiLightmap = temp;
+        gameRenderer.setUseUiLightmap(temp);
 
         modelViewStack.popMatrix();
         blitTexture(renderState, guiRenderState);
@@ -140,7 +142,7 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         guiRenderState.addBlitToCurrentLayer(
 			new BlitRenderState(
 				RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA,
-				TextureSetup.singleTexture(this.textureView, RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST)),
+				TextureSetup.singleTexture(((PictureInPictureRendererAccessor) this).getTextureView(), RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST)),
 				renderState.pose(),
 				renderState.x0(),
 				renderState.y0(),

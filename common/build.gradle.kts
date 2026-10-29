@@ -28,7 +28,4 @@ dependencies {
     // Do NOT use other classes from Fabric Loader.
     implementation("net.fabricmc:fabric-loader:${rootProject.property("fabric_loader_version")}")
 }
-loom {
-    accessWidenerPath = file("src/main/resources/${rootProject.property("mod_access_widener_name")}")
-}
 

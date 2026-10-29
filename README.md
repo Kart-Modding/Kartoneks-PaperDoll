@@ -3,7 +3,15 @@
 ### [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/class/17015.html)
 
 
-Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer). It adds support for **NeoForge and higher versions of Minecraft**, along with **more useful key bindings**, **additional configuration options** (such as **Rotation Unlock**), and a **Visual Configuration Editor**.
+Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer). It adds support for **NeoForge, Forge, Quilt and higher versions of Minecraft**, along with **more useful key bindings**, **additional configuration options** (such as **Rotation Unlock**), and a **Visual Configuration Editor**.
+
+### Loaders
+| Loader | Jar | Config screen |
+|---|---|---|
+| Fabric | `ayame-paperdoll-fabric` (needs Fabric API) | Mod Menu |
+| Quilt | `ayame-paperdoll-fabric` (needs Fabric API / QFAPI) | Mod Menu |
+| NeoForge | `ayame-paperdoll-neoforge` | Mods list |
+| Forge | `ayame-paperdoll-forge` | Mods list |
 
 ### Default Position and Style:
 ![Default Position and Style](https://cdn.modrinth.com/data/cached_images/6e7af18771d006eda3077d33800250bc80cdd647.png)

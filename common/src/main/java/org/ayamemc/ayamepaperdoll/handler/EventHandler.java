@@ -30,6 +30,7 @@ import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
 import org.ayamemc.ayamepaperdoll.config.VisualConfigEditorScreen;
 import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
+import org.ayamemc.ayamepaperdoll.mixininterface.EntityMixinInterface;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
@@ -67,7 +68,7 @@ public class EventHandler {
                 player.getAbilities().flying ||
                 player.isSprinting() ||
                 playerPose == Pose.FALL_FLYING ||
-                player.ayame_paperdoll$isSitting();
+                ((EntityMixinInterface) player).ayame_paperdoll$isSitting();
 
         if (currentState) {
             // 状态为 true 时立即返回 true，并重置时间戳

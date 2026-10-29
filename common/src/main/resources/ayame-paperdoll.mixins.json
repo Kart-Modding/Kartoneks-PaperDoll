@@ -4,6 +4,9 @@
     "compatibilityLevel": "JAVA_25",
     "minVersion": "0.8",
     "client": [
+        "accessor.GameRendererAccessor",
+        "accessor.LocalPlayerAccessor",
+        "accessor.PictureInPictureRendererAccessor",
         "hud.GuiGraphicsExtractorMixin",
         "retexture.AbstractButtonMixin",
         "retexture.AbstractScrollAreaMixin",
@@ -11,6 +14,8 @@
         "retexture.EditBoxMixin"
     ],
     "mixins": [
+        "accessor.EntityAccessor",
+        "accessor.LivingEntityAccessor",
         "patch.EntityMixin"
     ],
     "injectors": {
