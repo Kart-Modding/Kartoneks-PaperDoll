@@ -35,7 +35,7 @@ Jars land in `build/libs/<mod version>/`. Per-version dependencies are in `stone
 
 ### Icon
 The icon is a 3D render of Kartonek's skin (`art/kartonek_skin.png`) over the cherry grove from `art/screenshot.webp`.
-`art/kartonek_icon.psd` holds the layers (Background, Vignette, Shadow, Outline, Kartonek) and `art/kartonek_icon.png`
+`art/kartonek_icon.psd` holds the layers (Background, Vignette, Glow, Shadow, Kartonek) and `art/kartonek_icon.png`
 is the flat render. To rebuild: `node art/render.js` makes the 3D render, then `python3 art/compose.py` builds both files.
 
 ### Default Position and Style:

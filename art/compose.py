@@ -31,10 +31,12 @@ shadow = Image.new('RGBA', (N, N), (10, 5, 20, 0))
 shadow.putalpha(a.filter(ImageFilter.GaussianBlur(28)).point(lambda v: v * 170 // 255))
 shadow = shadow.transform((N, N), Image.AFFINE, (1, 0, -18, 0, 1, -10))
 
-outline = Image.new('RGBA', (N, N), (255, 255, 255, 0))
-outline.putalpha(a.filter(ImageFilter.MaxFilter(13)).filter(ImageFilter.GaussianBlur(1.5)))
+# Soft glow in the background's own (lightened) colour instead of a hard outline
+tint = tuple(min(255, c + 70) for c in bg.resize((1, 1), Image.LANCZOS).getpixel((0, 0))[:3])
+glow = Image.new('RGBA', (N, N), tint + (0,))
+glow.putalpha(a.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(36)).point(lambda v: v * 140 // 255))
 
-layers = [('Background', bg), ('Vignette', vignette), ('Shadow', shadow), ('Outline', outline), ('Kartonek', char)]
+layers = [('Background', bg), ('Vignette', vignette), ('Glow', glow), ('Shadow', shadow), ('Kartonek', char)]
 
 mask = Image.new('L', (N, N), 0)
 ImageDraw.Draw(mask).rounded_rectangle([0, 0, N - 1, N - 1], radius=180, fill=255)
