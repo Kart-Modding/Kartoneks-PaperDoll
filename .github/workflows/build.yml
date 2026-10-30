@@ -3,7 +3,7 @@ name: Build
 # Builds the mod for every Minecraft version (1.21.1 - 26.3) on Fabric (also runs on Quilt),
 # NeoForge and Forge: one job per loader, every version in it. Publishing a GitHub release
 # attaches all the jars to it. A push to main that changes mod.version also uploads the jars
-# to Modrinth and CurseForge.
+# to Modrinth and CurseForge and creates a GitHub release (tag v<mod.version>) with the jars.
 on:
   push:
     branches: [ "**" ]
@@ -25,6 +25,11 @@ jobs:
     name: Build (${{ matrix.loader }})
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    # Every loader computes the same values, so it doesn't matter which leg sets them
+    outputs:
+      version-changed: ${{ steps.version.outputs.changed }}
+      version: ${{ steps.version.outputs.version }}
+      changelog: ${{ steps.version.outputs.changelog }}
     strategy:
       fail-fast: false
       matrix:
@@ -72,10 +77,17 @@ jobs:
           previous=$(git show "$BEFORE:stonecutter.properties.toml" 2>/dev/null | read_version || true)
           echo "Version: '$previous' -> '$current'"
           if [ -n "$current" ] && [ "$current" != "$previous" ]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+            changelog=$(git log --no-merges --format='- %s' "$BEFORE..$GITHUB_SHA" 2>/dev/null || echo "- Version $current")
+            {
+              echo "changed=true"
+              echo "version=$current"
+              echo "changelog<<CHANGELOG_EOF"
+              echo "$changelog"
+              echo "CHANGELOG_EOF"
+            } >> "$GITHUB_OUTPUT"
             {
               echo "PUBLISH_CHANGELOG<<CHANGELOG_EOF"
-              git log --no-merges --format='- %s' "$BEFORE..$GITHUB_SHA" 2>/dev/null || echo "- Version $current"
+              echo "$changelog"
               echo "CHANGELOG_EOF"
             } >> "$GITHUB_ENV"
           fi
@@ -93,10 +105,12 @@ jobs:
         if: steps.version.outputs.changed != 'true'
         run: ./gradlew "publish$(echo '${{ matrix.loader }}' | sed 's/./\U&/')" --stacktrace
 
+  # Publishing a release attaches the jars to it; a mod.version change on main creates release
+  # v<version> with the jars (a release made with GITHUB_TOKEN doesn't start another run)
   release:
     name: Attach jars to the release
     needs: build
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' || needs.build.outputs.version-changed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -109,4 +123,16 @@ jobs:
       - name: Upload release assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: find jars -name '*.jar' -print0 | xargs -0 gh release upload "${{ github.event.release.tag_name }}" --repo "${{ github.repository }}" --clobber
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          VERSION: ${{ needs.build.outputs.version }}
+          CHANGELOG: ${{ needs.build.outputs.changelog }}
+        run: |
+          tag="$RELEASE_TAG"
+          if [ -z "$tag" ]; then
+            tag="v$VERSION"
+            # Re-running the job reuses the release instead of failing on it
+            gh release view "$tag" > /dev/null 2>&1 \
+              || gh release create "$tag" --target "$GITHUB_SHA" --title "$VERSION" --notes "$CHANGELOG"
+          fi
+          find jars -name '*.jar' -print0 | xargs -0 gh release upload "$tag" --clobber

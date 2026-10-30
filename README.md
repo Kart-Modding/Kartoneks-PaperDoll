@@ -17,7 +17,7 @@ One build covers **Minecraft 1.21.1 – 26.3** on every loader:
 
 Pick the jar whose name ends in your Minecraft version (`+1.21.8`, `+26.3`, ...). Jars for every
 version are built by GitHub Actions on each push (Actions tab → latest run → Artifacts) and attached
-to each GitHub release.
+to each GitHub release; a release `v<version>` is created automatically when `mod.version` changes on main.
 
 ### Building
 The source tree is shared by every version with [Stonecutter](https://stonecutter.kikugie.dev/):
