@@ -91,7 +91,11 @@ tasks {
         options.encoding = "UTF-8"
     }
 
+    // setSrcDirs above drops the task dependency of Stonecutter's generated resources folder
+    named("sourcesJar") { dependsOn("stonecutterGenerate") }
+
     processResources {
+        dependsOn("stonecutterGenerate")
         val props = mapOf(
             "id" to modId,
             "name" to modName,
