@@ -1,7 +1,9 @@
-# Ayame PaperDoll
+# Kartoneks Paperdoll
 
-### [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/class/17015.html)
+Kartoneks Paperdoll is a fork of **Ayame PaperDoll**, starring Kartonek, the mascot of my projects.
+All credit for the mod itself goes to the original authors; see below.
 
+**Original mod — Ayame PaperDoll:** [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/class/17015.html)
 
 Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer). It adds support for **NeoForge, Forge, Quilt and higher versions of Minecraft**, along with **more useful key bindings**, **additional configuration options** (such as **Rotation Unlock**), and a **Visual Configuration Editor**.
 
@@ -10,10 +12,10 @@ One build covers **Minecraft 1.21.1 – 26.3** on every loader:
 
 | Loader | Jar | Minecraft | Config screen |
 |---|---|---|---|
-| Fabric | `ayame-paperdoll-fabric` (needs Fabric API) | 1.21 – 26.3 | Mod Menu |
-| Quilt | `ayame-paperdoll-fabric` (needs Fabric API / QFAPI) | 1.21 – 26.3 | Mod Menu |
-| NeoForge | `ayame-paperdoll-neoforge` | 1.21.1, 1.21.3 – 26.3 | Mods list |
-| Forge | `ayame-paperdoll-forge` | 1.21.1, 1.21.3 – 26.3 | Mods list |
+| Fabric | `kartoneks-paperdoll-fabric` (needs Fabric API) | 1.21 – 26.3 | Mod Menu |
+| Quilt | `kartoneks-paperdoll-fabric` (needs Fabric API / QFAPI) | 1.21 – 26.3 | Mod Menu |
+| NeoForge | `kartoneks-paperdoll-neoforge` | 1.21.1, 1.21.3 – 26.3 | Mods list |
+| Forge | `kartoneks-paperdoll-forge` | 1.21.1, 1.21.3 – 26.3 | Mods list |
 
 Pick the jar whose name ends in your Minecraft version (`+1.21.8`, `+26.3`, ...). Jars for every
 version are built by GitHub Actions on each push (Actions tab → latest run → Artifacts) and attached

@@ -1,10 +1,10 @@
 {
-  "modmenu.descriptionTranslation.ayame_paperdoll": "Highly configurable PaperDoll mod.\nForked from Extra Player Renderer.",
-  "neoforge.screen.mods.info.description.ayame_paperdoll": "Highly configurable PaperDoll mod.\nForked from Extra Player Renderer.",
+  "modmenu.descriptionTranslation.ayame_paperdoll": "Highly configurable PaperDoll mod.\nFork of Ayame PaperDoll, itself forked from Extra Player Renderer.",
+  "neoforge.screen.mods.info.description.ayame_paperdoll": "Highly configurable PaperDoll mod.\nFork of Ayame PaperDoll, itself forked from Extra Player Renderer.",
   "config.ayame_paperdoll.on": "On",
   "config.ayame_paperdoll.off": "Off",
   "config.ayame_paperdoll.reset": "RESET",
-  "key.category.ayame_paperdoll.keys": "Ayame PaperDoll",
+  "key.category.ayame_paperdoll.keys": "Kartoneks Paperdoll",
   "key.ayame_paperdoll.openConfigGui": "Open Config GUI",
   "key.ayame_paperdoll.showPaperDoll": "Toggle PaperDoll Display",
   "config.ayame_paperdoll.presets.top_left": "Top Left",
@@ -91,6 +91,8 @@
   "config.ayame_paperdoll.option.hide_on_screen_open.desc": "Hide when a screen (e.g., game menu or inventory) is open.",
   "config.ayame_paperdoll.option.spectator_auto_switch.desc": "Automatically switch entity model in spectator mode.\n\nOverrides §2Player Name§r option if enabled.",
   "config.ayame_paperdoll.option.player_name.desc": "The name of the player to render. It will be your name when left blank.",
-  "fml.menu.mods.info.description.ayame_paperdoll": "Highly configurable PaperDoll mod.\nForked from Extra Player Renderer.",
-  "key.ayame_paperdoll.category": "Ayame PaperDoll"
+  "fml.menu.mods.info.description.ayame_paperdoll": "Highly configurable PaperDoll mod.\nFork of Ayame PaperDoll, itself forked from Extra Player Renderer.",
+  "key.ayame_paperdoll.category": "Kartoneks Paperdoll",
+  "modmenu.ayame_paperdoll.original_mod": "Original mod: Ayame PaperDoll",
+  "modmenu.ayame_paperdoll.extra_player_renderer": "Extra Player Renderer"
 }

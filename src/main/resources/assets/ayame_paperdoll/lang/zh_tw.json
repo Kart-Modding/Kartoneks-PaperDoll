@@ -1,10 +1,10 @@
 {
-  "modmenu.descriptionTranslation.ayame_paperdoll": "高度可設定的紙娃娃模組。\n額外玩家渲染的分支。",
-  "neoforge.screen.mods.info.description.ayame_paperdoll": "高度可設定的紙娃娃模組。\n額外玩家渲染的分支。",
+  "modmenu.descriptionTranslation.ayame_paperdoll": "高度可設定的紙娃娃模組。\nAyame 紙娃娃的分支，而 Ayame 紙娃娃又是額外玩家渲染的分支。",
+  "neoforge.screen.mods.info.description.ayame_paperdoll": "高度可設定的紙娃娃模組。\nAyame 紙娃娃的分支，而 Ayame 紙娃娃又是額外玩家渲染的分支。",
   "config.ayame_paperdoll.on": "開",
   "config.ayame_paperdoll.off": "關",
   "config.ayame_paperdoll.reset": "重置",
-  "key.category.ayame_paperdoll.keys": "Ayame 紙娃娃",
+  "key.category.ayame_paperdoll.keys": "Kartoneks 紙娃娃",
   "key.ayame_paperdoll.openConfigGui": "開啟設定介面",
   "key.ayame_paperdoll.showPaperDoll": "切換紙娃娃顯示",
   "config.ayame_paperdoll.presets.top_left": "左上",
@@ -91,6 +91,8 @@
   "config.ayame_paperdoll.option.hide_on_screen_open.desc": "是否在介面開啟（例如遊戲選單或背包）時隱藏",
   "config.ayame_paperdoll.option.spectator_auto_switch.desc": "旁觀者模式下自動切換實體模型\n\n開啟後會覆蓋§2渲染玩家名稱§r的功能",
   "config.ayame_paperdoll.option.player_name.desc": "被渲染實體的玩家名稱，空白代表你自己的名稱",
-  "fml.menu.mods.info.description.ayame_paperdoll": "高度可設定的紙娃娃模組。\n額外玩家渲染的分支。",
-  "key.ayame_paperdoll.category": "Ayame 紙娃娃"
+  "fml.menu.mods.info.description.ayame_paperdoll": "高度可設定的紙娃娃模組。\nAyame 紙娃娃的分支，而 Ayame 紙娃娃又是額外玩家渲染的分支。",
+  "key.ayame_paperdoll.category": "Kartoneks 紙娃娃",
+  "modmenu.ayame_paperdoll.original_mod": "原模組：Ayame 紙娃娃",
+  "modmenu.ayame_paperdoll.extra_player_renderer": "額外玩家渲染"
 }

@@ -1,10 +1,10 @@
 {
-  "modmenu.descriptionTranslation.ayame_paperdoll": "高度可配置的纸娃娃模组。\n额外玩家渲染的的分支。",
-  "neoforge.screen.mods.info.description.ayame_paperdoll": "高度可配置的纸娃娃模组。\n额外玩家渲染的的分支。",
+  "modmenu.descriptionTranslation.ayame_paperdoll": "高度可配置的纸娃娃模组。\nAyame 纸娃娃的分支，而 Ayame 纸娃娃又是额外玩家渲染的分支。",
+  "neoforge.screen.mods.info.description.ayame_paperdoll": "高度可配置的纸娃娃模组。\nAyame 纸娃娃的分支，而 Ayame 纸娃娃又是额外玩家渲染的分支。",
   "config.ayame_paperdoll.on": "开",
   "config.ayame_paperdoll.off": "关",
   "config.ayame_paperdoll.reset": "重置",
-  "key.category.ayame_paperdoll.keys": "Ayame 纸娃娃",
+  "key.category.ayame_paperdoll.keys": "Kartoneks 纸娃娃",
   "key.ayame_paperdoll.openConfigGui": "打开配置界面",
   "key.ayame_paperdoll.showPaperDoll": "切换纸娃娃显示",
   "config.ayame_paperdoll.presets.top_left": "左上",
@@ -91,6 +91,8 @@
   "config.ayame_paperdoll.option.hide_on_screen_open.desc": "是否在屏幕打开（例如游戏菜单或背包）时隐藏",
   "config.ayame_paperdoll.option.spectator_auto_switch.desc": "旁观者模式下自动切换实体模型\n\n打开后会覆盖§2渲染玩家名§r的功能",
   "config.ayame_paperdoll.option.player_name.desc": "被渲染实体的玩家名，空白代表你自己的名称",
-  "fml.menu.mods.info.description.ayame_paperdoll": "高度可配置的纸娃娃模组。\n额外玩家渲染的的分支。",
-  "key.ayame_paperdoll.category": "Ayame 纸娃娃"
+  "fml.menu.mods.info.description.ayame_paperdoll": "高度可配置的纸娃娃模组。\nAyame 纸娃娃的分支，而 Ayame 纸娃娃又是额外玩家渲染的分支。",
+  "key.ayame_paperdoll.category": "Kartoneks 纸娃娃",
+  "modmenu.ayame_paperdoll.original_mod": "原模组：Ayame 纸娃娃",
+  "modmenu.ayame_paperdoll.extra_player_renderer": "额外玩家渲染"
 }

@@ -7,10 +7,11 @@ issueTrackerURL = "https://github.com/Kart-Modding/Kartoneks-PaperDoll/issues"
 modId = "${id}"
 version = "${version}"
 displayName = "${name}"
-displayURL = "https://modrinth.com/mod/ayame-paperdoll"
+displayURL = "https://github.com/Kart-Modding/Kartoneks-PaperDoll"
 authors = "LucunJi (original author), HappyRespawnanchor"
 credits = "Fallen_Breath, X-Green, altrisi, plusls, pertaz, LightgraycaAT, Kartonekk"
-description = '''Highly configurable PaperDoll mod. Forked from Extra Player Renderer.'''
+description = '''Highly configurable PaperDoll mod. Fork of Ayame PaperDoll, itself forked from Extra Player Renderer.
+Original mod: https://modrinth.com/mod/ayame-paperdoll'''
 logoFile = "icon.png"
 logoBlur = false
 

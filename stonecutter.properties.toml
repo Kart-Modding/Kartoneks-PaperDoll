@@ -1,10 +1,10 @@
 # See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
 mod.id = "ayame_paperdoll"
-mod.name = "Ayame PaperDoll"
+mod.name = "Kartoneks Paperdoll"
 mod.group = "org.ayamemc.ayamepaperdoll"
 mod.version = "4.5.0"
-# File names of the jars: ayame-paperdoll-<loader>-<version>+<minecraft>.jar
-mod.archives_name = "ayame-paperdoll"
+# File names of the jars: kartoneks-paperdoll-<loader>-<version>+<minecraft>.jar
+mod.archives_name = "kartoneks-paperdoll"
 
 # Project IDs for `publishMods` (see .github/workflows/build.yml). Leave one empty to skip that site.
 publish.modrinth = ""

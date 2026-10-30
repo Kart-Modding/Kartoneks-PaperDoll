@@ -3,7 +3,7 @@
   "id": "${id}",
   "version": "${version}",
   "name": "${name}",
-  "description": "Highly configurable PaperDoll mod. Forked from Extra Player Renderer.",
+  "description": "Highly configurable PaperDoll mod. Fork of Ayame PaperDoll, itself forked from Extra Player Renderer.",
   "authors": [
     "Lucun_Ji(Original author)",
     "HappyRespawnanchor"
@@ -18,7 +18,7 @@
     "Kartonekk"
   ],
   "contact": {
-    "homepage": "https://modrinth.com/mod/ayame-paperdoll",
+    "homepage": "https://github.com/Kart-Modding/Kartoneks-PaperDoll",
     "sources": "https://github.com/Kart-Modding/Kartoneks-PaperDoll",
     "issues": "https://github.com/Kart-Modding/Kartoneks-PaperDoll/issues"
   },
@@ -48,8 +48,8 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.modrinth": "https://modrinth.com/mod/ayame-paperdoll",
-        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll"
+        "modmenu.ayame_paperdoll.original_mod": "https://modrinth.com/mod/ayame-paperdoll",
+        "modmenu.ayame_paperdoll.extra_player_renderer": "https://modrinth.com/mod/extraplayerrenderer"
       }
     }
   }

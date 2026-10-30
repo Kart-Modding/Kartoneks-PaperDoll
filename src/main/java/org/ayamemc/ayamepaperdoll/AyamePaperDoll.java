@@ -61,7 +61,7 @@ import java.nio.file.Path;
 
 public final class AyamePaperDoll {
     public static final String MOD_ID = "ayame_paperdoll";
-    public static final String MOD_NAME = "Ayame PaperDoll";
+    public static final String MOD_NAME = "Kartoneks Paperdoll";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
     //? if >=1.21.6 && <26.1 {
     /*public static boolean identifier = false;
