@@ -30,17 +30,25 @@
 *///?}
 //? if forge {
 /*import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+*///?}
+//? if forge && <1.21.6 {
+/*import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
+*///?}
+//? if forge && >=1.21.8 {
+/*import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
+*///?}
+//? if forge {
+/*import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 *///?}
 //? if forge && >=1.21.6 {
 /*import net.minecraftforge.client.event.RegisterPictureInPictureRendererEvent;
 *///?}
-//? if forge {
-/*import net.minecraftforge.client.gui.overlay.ForgeLayeredDraw;
-*///?}
 //? if forge && <1.21.6 {
-/*import net.minecraftforge.common.MinecraftForge;
+/*import net.minecraftforge.client.gui.overlay.ForgeLayeredDraw;
+import net.minecraftforge.common.MinecraftForge;
+*///?}
+//? if forge && >=1.21.8 {
+/*import net.minecraftforge.client.gui.overlay.ForgeLayeredDraw;
 *///?}
 //? if forge {
 /*import net.minecraftforge.event.TickEvent;
@@ -83,7 +91,9 @@ public final class AyamePaperDollForge {
         //? if forge && >=1.21.6 && <1.21.9 {
         /*var modBus = context.getModBusGroup();
         RegisterKeyMappingsEvent.getBus(modBus).addListener(AyamePaperDollForge::registerKeyMapping);
-        AddGuiOverlayLayersEvent.getBus(modBus).addListener(AyamePaperDollForge::registerHudLayer);
+        *///?}
+        //? if forge && >=1.21.8 && <1.21.9 {
+        /*AddGuiOverlayLayersEvent.getBus(modBus).addListener(AyamePaperDollForge::registerHudLayer);
         *///?}
         //? if forge && >=1.21.6 {
         /*RegisterPictureInPictureRendererEvent.BUS.addListener(AyamePaperDollForge::registerPip);
@@ -104,11 +114,11 @@ public final class AyamePaperDollForge {
                 /*ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory(lastScreen -> new ConfigScreen(lastScreen, AyamePaperDoll.CONFIGS.getOptions()))
         );
+    }
+
                 *///?}
     //? if forge && >=1.21.6 {
-    /*}
-
-    private static void registerPip(RegisterPictureInPictureRendererEvent event) {
+    /*private static void registerPip(RegisterPictureInPictureRendererEvent event) {
     *///?}
         //? if forge && >=26.2 {
         /*event.register(new ModRenderer(Minecraft.getInstance().getEntityRenderDispatcher()));
@@ -116,10 +126,21 @@ public final class AyamePaperDollForge {
         //? if forge && >=1.21.6 && <26.2 {
         /*event.register(new ModRenderer(event.getBufferSource(), Minecraft.getInstance().getEntityRenderDispatcher()));
         *///?}
+    //? if forge && <1.21.6 {
+    /*private static void registerHudLayer(AddGuiOverlayLayersEvent event) {
+        event.getLayeredDraw().addAbove(
+                ForgeLayeredDraw.PRE_SLEEP_STACK,
+                AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),
+                ForgeLayeredDraw.CAMERA_OVERLAY,
+                EventHandler::renderPaperDoll
+        );
+    *///?}
     //? if forge {
     /*}
 
-    private static void registerHudLayer(AddGuiOverlayLayersEvent event) {
+    *///?}
+    //? if forge && >=1.21.8 {
+    /*private static void registerHudLayer(AddGuiOverlayLayersEvent event) {
         event.getLayeredDraw().addAbove(
                 ForgeLayeredDraw.PRE_SLEEP_STACK,
                 AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),
@@ -128,7 +149,9 @@ public final class AyamePaperDollForge {
         );
     }
 
-    private static void registerKeyMapping(RegisterKeyMappingsEvent event) {
+    *///?}
+    //? if forge {
+    /*private static void registerKeyMapping(RegisterKeyMappingsEvent event) {
         event.register(AyamePaperDoll.SHOW_PAPERDOLL_KEY);
         event.register(AyamePaperDoll.OPEN_CONFIG_GUI);
     }

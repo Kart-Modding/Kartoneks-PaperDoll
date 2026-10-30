@@ -15,7 +15,10 @@ extra["apdGame"] = sc.current.version
 apply(from = rootProject.file("gradle/target.gradle.kts"))
 val requiredJava = extra["apdJava"] as JavaVersion
 val accessTransformer = extra["apdAccessTransformer"] as File
-val clientMixins = extra["apdClientMixins"] as String
+// Forge 56 and 57 (1.21.6, 1.21.7) have no HUD layer event; a mixin draws the paper doll there instead
+val clientMixins = (extra["apdClientMixins"] as String).let {
+    if (sc.current.parsed >= "1.21.6" && sc.current.parsed < "1.21.8") "$it,\n        \"forge.ForgeGuiMixin\"" else it
+}
 val modId = property("mod.id") as String
 val modName = property("mod.name") as String
 val modVersion = property("mod.version") as String
