@@ -1,5 +1,7 @@
 # Kartoneks Paperdoll
 
+<img src="art/kartonek_icon.png" alt="Kartonek" width="128" align="right">
+
 Kartoneks Paperdoll is a fork of **Ayame PaperDoll**, starring Kartonek, the mascot of my projects.
 All credit for the mod itself goes to the original authors; see below.
 
@@ -30,6 +32,11 @@ version- and loader-specific code sits in `//? if` comments.
 ```
 
 Jars land in `build/libs/<mod version>/`. Per-version dependencies are in `stonecutter.properties.toml`.
+
+### Icon
+The icon is a 3D render of Kartonek's skin (`art/kartonek_skin.png`) over the cherry grove from `art/screenshot.webp`.
+`art/kartonek_icon.psd` holds the layers (Background, Vignette, Shadow, Outline, Kartonek) and `art/kartonek_icon.png`
+is the flat render. To rebuild: `node art/render.js` makes the 3D render, then `python3 art/compose.py` builds both files.
 
 ### Default Position and Style:
 ![Default Position and Style](https://cdn.modrinth.com/data/cached_images/6e7af18771d006eda3077d33800250bc80cdd647.png)
