@@ -17,7 +17,8 @@ permissions:
 
 concurrency:
   group: build-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name != 'release' }}
+  # On main a push waits for the running build instead of cancelling it (every run publishes or dry-runs)
+  cancel-in-progress: ${{ github.event_name != 'release' && github.ref != 'refs/heads/main' }}
 
 jobs:
   build:
