@@ -2,7 +2,7 @@
 mod.id = "ayame_paperdoll"
 mod.name = "Kartoneks Paperdoll"
 mod.group = "org.ayamemc.ayamepaperdoll"
-mod.version = "4.5.0"
+mod.version = "4.5.1"
 # File names of the jars: kartoneks-paperdoll-<loader>-<version>+<minecraft>.jar
 mod.archives_name = "kartoneks-paperdoll"
 
