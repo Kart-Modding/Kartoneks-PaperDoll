@@ -5,6 +5,7 @@
   "name": "${name}",
   "description": "Highly configurable PaperDoll mod. Fork of Ayame PaperDoll, itself forked from Extra Player Renderer.",
   "authors": [
+    "Kartonekk",
     "Lucun_Ji(Original author)",
     "HappyRespawnanchor"
   ],
@@ -14,8 +15,7 @@
     "altrisi",
     "plusls",
     "pertaz",
-    "LightgraycaAT",
-    "Kartonekk"
+    "LightgraycaAT"
   ],
   "contact": {
     "homepage": "https://github.com/Kart-Modding/Kartoneks-PaperDoll",
