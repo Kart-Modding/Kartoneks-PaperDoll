@@ -7,8 +7,8 @@ mod.version = "4.5.1"
 mod.archives_name = "kartoneks-paperdoll"
 
 # Project IDs for `publishMods` (see .github/workflows/build.yml). Leave one empty to skip that site.
-publish.modrinth = ""
-publish.curseforge = ""
+publish.modrinth = "zWdPWnpB"
+publish.curseforge = "1779628"
 
 deps.fabric_loader = "0.19.3"
 # Bundled into the Forge jars before 1.21.10; Fabric, NeoForge and newer Forge ship it themselves
