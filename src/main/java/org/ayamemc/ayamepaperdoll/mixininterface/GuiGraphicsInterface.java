@@ -37,11 +37,13 @@ public interface GuiGraphicsInterface {
             float scale,
 *///?}
             //? if >=1.21.9 && <26.1 {
-            /*boolean boat
+            /*boolean boat,
+            float lightDegree
             *///?}
             //? if >=1.21.6 && <1.21.9 {
             /*boolean boat,
-            int light
+            int light,
+            float lightDegree
             *///?}
     //? if >=1.21.6 && <26.1 {
     /*);

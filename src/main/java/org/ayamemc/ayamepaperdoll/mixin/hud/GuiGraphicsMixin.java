@@ -48,10 +48,10 @@ public class GuiGraphicsMixin implements GuiGraphicsInterface {
     @Override
 *///?}
     //? if >=1.21.9 && <26.1 {
-    /*public void submitModeRenderState(EntityRenderState renderState, Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle, int x0, int y0, float scale,boolean boat) {
+    /*public void submitModeRenderState(EntityRenderState renderState, Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle, int x0, int y0, float scale, boolean boat, float lightDegree) {
     *///?}
     //? if >=1.21.6 && <1.21.9 {
-    /*public void submitModeRenderState(EntityRenderState renderState, Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle, int x0, int y0, float scale,boolean boat, int light) {
+    /*public void submitModeRenderState(EntityRenderState renderState, Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle, int x0, int y0, float scale, boolean boat, int light, float lightDegree) {
     *///?}
         //? if >=1.21.6 && <26.1 {
         /*this.guiRenderState.submitPicturesInPictureState(
@@ -62,10 +62,10 @@ public class GuiGraphicsMixin implements GuiGraphicsInterface {
                         overrideCameraAngle,
         *///?}
                         //? if >=1.21.9 && <26.1 {
-                        /*x0, y0,scale,boat,
+                        /*x0, y0, scale, boat, lightDegree,
                         *///?}
                         //? if >=1.21.6 && <1.21.9 {
-                        /*x0, y0,scale,boat,light,
+                        /*x0, y0, scale, boat, light, lightDegree,
                         *///?}
                         //? if >=1.21.6 && <26.1 {
                         /*scissorStack.peek()

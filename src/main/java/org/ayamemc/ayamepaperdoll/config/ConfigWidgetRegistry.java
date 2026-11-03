@@ -46,11 +46,14 @@ import org.ayamemc.ayamepaperdoll.config.view.ListWidget;
 import org.ayamemc.ayamepaperdoll.config.view.Retextured;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class ConfigWidgetRegistry {
     public static final int RESET_BUTTON_WIDTH = 50;
@@ -59,6 +62,10 @@ public class ConfigWidgetRegistry {
     private static final String OFF_LANGKEY = "config.%s.off".formatted(AyamePaperDoll.MOD_ID);
     private static final String RESET_LANGKEY = "config.%s.reset".formatted(AyamePaperDoll.MOD_ID);
     private static final int WIDGET_WIDTH = 150;
+    // A slider and the box to type its value in (#10) together take up WIDGET_WIDTH
+    private static final int NUMBER_FIELD_WIDTH = 46;
+    private static final int SMALL_GAP_WIDTH = 4;
+    private static final int SLIDER_WIDTH = WIDGET_WIDTH - NUMBER_FIELD_WIDTH - SMALL_GAP_WIDTH;
     private static final int WIDGET_HEIGHT = 20;
     private final List<OptionWidgetEntry<?, ?>> defaultWidgets = new ArrayList<>();
 
@@ -93,34 +100,62 @@ public class ConfigWidgetRegistry {
     private static ListWidget.ListEntry getDoubleSlider(RangedConfigOption<Double> option) {
         var setter = new ConfigValueUpdater<Double>();
         var slider = new ConfigSlider(
-                WIDGET_WIDTH, WIDGET_HEIGHT,
+                SLIDER_WIDTH, WIDGET_HEIGHT,
                 (option.getValue() - option.getMin()) / (option.getMax() - option.getMin()),
                 val -> setter.setValue(Mth.lerp(val, option.getMin(), option.getMax())),
                 val -> Component.nullToEmpty("%.2f".formatted(option.getValue())));
+        var field = new NumberField("-?\\d*\\.?\\d*");
         var reset = getResetButton(option, setter);
+        Runnable showValue = () -> field.show(new BigDecimal(option.getValue()).setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString());
+        field.listen(text -> {
+            try {
+                double val = Double.parseDouble(text);
+                if (val < option.getMin() || val > option.getMax()) return false;
+                setter.setValue(val);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }, showValue);
         setter.setUpdateHandler(val -> {
             option.setValue(val);
             slider.setValueNoEvent((option.getValue() - option.getMin()) / (option.getMax() - option.getMin()));
             reset.active = !option.isValueDefault();
+            if (!field.isFocused()) showValue.run();
         });
-        return new ConfigEntry(option.getName(), Tooltip.create(option.getDescription()), slider, reset);
+        showValue.run();
+        return new ConfigEntry(option.getName(), Tooltip.create(option.getDescription()), List.of(slider, field), reset);
     }
 
     private static ListWidget.ListEntry getIntegerSlider(RangedConfigOption<Integer> option) {
         var setter = new ConfigValueUpdater<Integer>();
         double steps = option.getMax() - option.getMin();
         var slider = new ConfigSlider(
-                WIDGET_WIDTH, WIDGET_HEIGHT,
+                SLIDER_WIDTH, WIDGET_HEIGHT,
                 (option.getValue() - option.getMin()) / steps,
                 val -> setter.setValue((int) Math.round(val * steps) + option.getMin()),
                 val -> Component.nullToEmpty(Integer.toString(option.getValue())));
+        var field = new NumberField("-?\\d*");
         var reset = getResetButton(option, setter);
+        Runnable showValue = () -> field.show(Integer.toString(option.getValue()));
+        field.listen(text -> {
+            try {
+                int val = Integer.parseInt(text);
+                if (val < option.getMin() || val > option.getMax()) return false;
+                setter.setValue(val);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }, showValue);
         setter.setUpdateHandler(val -> {
             option.setValue(val);
             slider.setValueNoEvent((option.getValue() - option.getMin()) / steps);
             reset.active = !option.isValueDefault();
+            if (!field.isFocused()) showValue.run();
         });
-        return new ConfigEntry(option.getName(), Tooltip.create(option.getDescription()), slider, reset);
+        showValue.run();
+        return new ConfigEntry(option.getName(), Tooltip.create(option.getDescription()), List.of(slider, field), reset);
     }
 
     private static ListWidget.ListEntry getOnOffButton(ConfigOption<Boolean> option) {
@@ -210,6 +245,42 @@ public class ConfigWidgetRegistry {
         }
     }
 
+    /**
+     * A box next to a slider to type an exact value in (#10). Values that don't parse or are out of
+     * range turn red and aren't applied; leaving the box shows the option's value again.
+     */
+    private static class NumberField extends ConfigTextField {
+        private static final int VALID_COLOR = 0xFFE0E0E0;
+        private static final int INVALID_COLOR = 0xFFFF5555;
+        private Runnable onUnfocus = () -> {};
+
+        public NumberField(String allowedPattern) {
+            super(NUMBER_FIELD_WIDTH, WIDGET_HEIGHT);
+            this.setMaxLength(12);
+            this.setFilter(text -> text.matches(allowedPattern));
+        }
+
+        /**
+         * @param apply    parses and applies typed text, returning whether it was a valid value
+         * @param onUnfocus called when the box loses focus
+         */
+        public void listen(Predicate<String> apply, Runnable onUnfocus) {
+            this.onUnfocus = onUnfocus;
+            this.setResponder(text -> this.setTextColor(apply.test(text) ? VALID_COLOR : INVALID_COLOR));
+        }
+
+        public void show(String text) {
+            if (!text.equals(this.getValue())) this.setValue(text);
+            this.setTextColor(VALID_COLOR);
+        }
+
+        @Override
+        public void setFocused(boolean focused) {
+            super.setFocused(focused);
+            if (!focused) this.onUnfocus.run();
+        }
+    }
+
     private static class ConfigSlider extends AbstractSliderButton implements Retextured {
         @NotNull
         private final Consumer<Double> changeListener;
@@ -275,16 +346,31 @@ public class ConfigWidgetRegistry {
 
         private final List<AbstractWidget> children;
         private final StringWidget label;
-        private final AbstractWidget widget;
+        private final List<AbstractWidget> widgets;
         private final Button reset;
 
         private ConfigEntry(Component label, Tooltip labelTooltip, AbstractWidget widget, Button resetButton) {
+            this(label, labelTooltip, List.of(widget), resetButton);
+        }
+
+        private ConfigEntry(Component label, Tooltip labelTooltip, List<AbstractWidget> widgets, Button resetButton) {
             var labelWidget = new StringWidget(label, Minecraft.getInstance().font);
             labelWidget.setTooltip(labelTooltip);
             this.label = labelWidget;
-            this.widget = widget;
+            this.widgets = widgets;
             this.reset = resetButton;
-            this.children = ImmutableList.of(this.widget, this.reset);
+            this.children = ImmutableList.<AbstractWidget>builder().addAll(widgets).add(reset).build();
+        }
+
+        /** Lays the widgets out right to left, ending GAP_WIDTH before the reset button at {@code right}. */
+        private void placeWidgets(int right, int y) {
+            int x = right - reset.getWidth() - GAP_WIDTH;
+            for (int i = widgets.size() - 1; i >= 0; i--) {
+                var widget = widgets.get(i);
+                x -= widget.getWidth();
+                widget.setPosition(x, y);
+                x -= SMALL_GAP_WIDTH;
+            }
         }
 
         @Override
@@ -307,15 +393,15 @@ public class ConfigWidgetRegistry {
             //? if >=1.21.9 {
             label.setPosition(getContentX(), getContentY() + LABEL_Y_OFFSET);
             reset.setPosition(getContentX() + getContentWidth() - reset.getWidth(), getContentY());
-            widget.setPosition(getContentX()+ getContentWidth() - reset.getWidth() - widget.getWidth() - GAP_WIDTH,getContentY());
+            placeWidgets(getContentX() + getContentWidth(), getContentY());
             //?}
             //? if >=26.1 {
-            widget.extractRenderState(graphics, mouseX, mouseY, a);
+            for (var widget : widgets) widget.extractRenderState(graphics, mouseX, mouseY, a);
             reset.extractRenderState(graphics, mouseX, mouseY, a);
             label.extractRenderState(graphics, mouseX, mouseY, a);
             //?}
             //? if >=1.21.9 && <26.1 {
-            /*widget.render(guiGraphics, mouseX, mouseY, tickDelta);
+            /*for (var widget : widgets) widget.render(guiGraphics, mouseX, mouseY, tickDelta);
             reset.render(guiGraphics, mouseX, mouseY, tickDelta);
             label.render(guiGraphics, mouseX, mouseY, tickDelta);
             *///?}
@@ -323,8 +409,8 @@ public class ConfigWidgetRegistry {
         /*public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             label.setPosition(x, y + LABEL_Y_OFFSET);
             reset.setPosition(x + entryWidth - reset.getWidth(), y);
-            widget.setPosition(x + entryWidth - reset.getWidth() - widget.getWidth() - GAP_WIDTH, y);
-            widget.render(context, mouseX, mouseY, tickDelta);
+            placeWidgets(x + entryWidth, y);
+            for (var widget : widgets) widget.render(context, mouseX, mouseY, tickDelta);
             reset.render(context, mouseX, mouseY, tickDelta);
             label.render(context, mouseX, mouseY, tickDelta);
         *///?}

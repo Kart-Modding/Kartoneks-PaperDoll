@@ -65,6 +65,9 @@ public record ModRenderState(
         //? if >=1.21.6 && <1.21.9 {
         /*int light,
         *///?}
+        //? if >=1.21.6 && <26.3 {
+        /*float lightDegree,
+        *///?}
         //? if >=26.3 {
         float lightDegree,
         boolean mirror,
@@ -105,6 +108,9 @@ public record ModRenderState(
         //? if >=1.21.6 && <1.21.9 {
         /*int light,
         *///?}
+            //? if >=1.21.6 && <26.3 {
+            /*float lightDegree,
+            *///?}
             //? if >=26.3 {
             float lightDegree,
             boolean mirror
@@ -144,6 +150,9 @@ public record ModRenderState(
                 *///?}
                 //? if >=1.21.6 && <1.21.9 {
                 /*light,
+                *///?}
+                //? if >=1.21.6 && <26.3 {
+                /*lightDegree,
                 *///?}
                 //? if >=26.3 {
                 lightDegree,

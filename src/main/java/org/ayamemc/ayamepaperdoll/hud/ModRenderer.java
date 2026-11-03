@@ -49,6 +49,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 //? if >=1.21.6 {
 import com.mojang.blaze3d.vertex.PoseStack;
 //?}
+//? if >=1.21.6 && <26.3 {
+/*import com.mojang.math.Axis;
+*///?}
 //? if >=26.3 {
 import com.mojang.math.Axis;
 import com.mojang.renderpearl.api.commands.RenderPass;
@@ -110,6 +113,9 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 //? if >=1.21.6 {
 import org.jetbrains.annotations.NotNull;
 //?}
+//? if >=1.21.6 && <26.3 {
+/*import org.joml.Matrix4fStack;
+*///?}
 //? if >=26.3 {
 import org.joml.Matrix4fStack;
 //?}
@@ -315,7 +321,12 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         float f = renderState.scale();
         //?}
         //? if >=26.1 && <26.3 {
-        /*float x0 =CONFIGS.mirrored.getValue()? width - renderState.x0() : renderState.x0();
+        /*// #30: the model view turns by Light Degree and the pose turns back, so only the lighting moves
+        Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushMatrix();
+        modelViewStack.rotateY(renderState.lightDegree());
+        posestack.mulPose(Axis.YP.rotation(-renderState.lightDegree()));
+        float x0 =CONFIGS.mirrored.getValue()? width - renderState.x0() : renderState.x0();
         posestack.translate(x0, renderState.y0(), 0.0F);
         float f =  renderState.scale();
         *///?}
@@ -342,7 +353,12 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         /*PoseStack posestack = renderState.boat()?new PaperDollRenderer.PaperDollPoseStack():new PoseStack();
         *///?}
         //? if >=1.21.6 && <26.1 {
-        /*posestack.translate(renderState.x0(), renderState.y0(), 0.0F);
+        /*// #30: the model view turns by Light Degree and the pose turns back, so only the lighting moves
+        Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushMatrix();
+        modelViewStack.rotateY(renderState.lightDegree());
+        posestack.mulPose(Axis.YP.rotation(-renderState.lightDegree()));
+        posestack.translate(renderState.x0(), renderState.y0(), 0.0F);
         *///?}
         //? if >=1.21.11 && <26.1 {
         /*posestack.scale(CONFIGS.mirrored.getValue() ? -1.0f : 1.0f, 1.0f, -1.0f);
@@ -355,14 +371,21 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         //? if >=1.21.6 && <26.1 {
         /*posestack.scale(f, f, f);
         *///?}
-        //? if >=26.2 {
-        this.renderToTexture(renderState, posestack, this.submitNodeStorage);
-        //?}
+        //? if >=26.2 && <26.3 {
+        /*this.renderToTexture(renderState, posestack, this.submitNodeStorage);
+        *///?}
         //? if >=26.3 {
 
+        // #36/#38: with Improved Transparency (OIT) on, render types such as the boat's water mask pick
+        // pipelines with no colour target, which crash our single-colour-target pass. Draw with it off;
+        // it has to be off before renderToTexture, where the render types are chosen.
         GameRenderer gameRenderer = Minecraft.getInstance().gameRenderer;
         boolean temp = gameRenderer.useUiLightmap;
+        boolean improvedTransparency = gameRenderer.gameRenderState().optionsRenderState.improvedTransparency;
         gameRenderer.useUiLightmap = false;
+        gameRenderer.gameRenderState().optionsRenderState.improvedTransparency = false;
+
+        this.renderToTexture(renderState, posestack, this.submitNodeStorage);
 
         try (
             FeatureRenderDispatcher.PreparedFrame frame = featureRenderDispatcher.prepareFrame(this.submitNodeStorage);
@@ -373,15 +396,18 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
         }
 
         gameRenderer.useUiLightmap = temp;
+        gameRenderer.gameRenderState().optionsRenderState.improvedTransparency = improvedTransparency;
 
         modelViewStack.popMatrix();
         //?}
         //? if >=26.2 && <26.3 {
         /*featureRenderDispatcher.renderAllFeatures(this.submitNodeStorage);
+        modelViewStack.popMatrix();
         *///?}
         //? if >=1.21.6 && <26.2 {
         /*this.renderToTexture(renderState, posestack);
         this.bufferSource.endBatch();
+        modelViewStack.popMatrix();
         *///?}
         //? if >=26.1 && <26.3 {
         /*RenderSystem.outputColorTextureOverride = null;

@@ -136,6 +136,11 @@ public class PaperDollRenderer {
             new DataBackupEntry<>(e -> e.getSharedFlag(0), (e, flag) -> e.setSharedFlag(0, flag)) // on fire
             *///?}
     );
+    // Non-living vehicles (brooms, seats, ...) only need their yaw kept in line with the locked body, see #13/#28
+    private static final List<DataBackupEntry<Entity, ?>> VEHICLE_YAW_BACKUP_ENTRIES = ImmutableList.of(
+            new DataBackupEntry<>(Entity::getYRot, Entity::setYRot),
+            new DataBackupEntry<>(e -> e.yRotO, (e, yaw) -> e.yRotO = yaw)
+    );
     private static final PaperDollRenderer instance = new PaperDollRenderer();
     private final Minecraft minecraft = Minecraft.getInstance();
     //? if <26.1 {
@@ -220,13 +225,13 @@ public class PaperDollRenderer {
         //? if >=26.3 {
         boolean forceStanding = poseOffsetMethod == Configs.PoseOffsetMethod.FORCE_STANDING;
 
-        transformEntity(targetEntity, a, forceStanding);
+        float bodyYawShift = transformEntity(targetEntity, a, forceStanding);
         //?}
         //? if >=26.1 && <26.3 {
-        /*transformEntity(targetEntity, a, poseOffsetMethod == Configs.PoseOffsetMethod.FORCE_STANDING);
+        /*float bodyYawShift = transformEntity(targetEntity, a, poseOffsetMethod == Configs.PoseOffsetMethod.FORCE_STANDING);
         *///?}
         //? if <26.1 {
-        /*transformEntity(targetEntity, partialTicks, poseOffsetMethod == Configs.PoseOffsetMethod.FORCE_STANDING);
+        /*float bodyYawShift = transformEntity(targetEntity, partialTicks, poseOffsetMethod == Configs.PoseOffsetMethod.FORCE_STANDING);
         *///?}
 
         //? if >=26.1 {
@@ -234,6 +239,7 @@ public class PaperDollRenderer {
         Vector3f vehicleOffset = null;
         //?}
         DataBackup<LivingEntity> vehicleBackup = null;
+        DataBackup<Entity> vehicleYawBackup = null;
         if (CONFIGS.renderVehicle.getValue() && poseOffsetMethod != Configs.PoseOffsetMethod.FORCE_STANDING && targetEntity.isPassenger()) {
             var vehicle = targetEntity.getVehicle();
             assert vehicle != null;
@@ -256,6 +262,13 @@ public class PaperDollRenderer {
                 //? if <26.1 {
                 /*transformEntity(livingVehicle, partialTicks, false);
                 *///?}
+            } else if (shouldLockRotationYaw()) {
+                // #13/#28: a broom, seat or other non-living vehicle kept its world yaw and spun on its own
+                // while the doll was locked; turn it by as much as the doll's body was turned
+                vehicleYawBackup = new DataBackup<>(vehicle, VEHICLE_YAW_BACKUP_ENTRIES);
+                vehicleYawBackup.save();
+                vehicle.setYRot(vehicle.getYRot() + bodyYawShift);
+                vehicle.yRotO += bodyYawShift;
             }
 
             //? if >=26.3 {
@@ -330,6 +343,7 @@ public class PaperDollRenderer {
                 *///?}
 
         if (vehicleBackup != null) vehicleBackup.restore();
+        if (vehicleYawBackup != null) vehicleYawBackup.restore();
 
         backup.restore();
     }
@@ -364,7 +378,10 @@ public class PaperDollRenderer {
         return 0;
     }
 
-    private void transformEntity(LivingEntity targetEntity, float partialTicks, boolean forceStanding) {
+    /**
+     * @return how far the body yaw was turned to lock it, in degrees (0 when it isn't locked)
+     */
+    private float transformEntity(LivingEntity targetEntity, float partialTicks, boolean forceStanding) {
         // synchronize values to remove glitch
         if (!targetEntity.isSwimming() && !targetEntity.isFallFlying() && !targetEntity.isVisuallyCrawling()) {
             targetEntity.setPose(targetEntity.isCrouching() ? Pose.CROUCHING : Pose.STANDING);
@@ -390,12 +407,8 @@ public class PaperDollRenderer {
         final double headYaw = CONFIGS.headYaw.getValue(), headYawRange = CONFIGS.headYawRange.getValue();
         final double bodyYaw = CONFIGS.bodyYaw.getValue(), bodyYawRange = CONFIGS.bodyYawRange.getValue();
         final double pitch = CONFIGS.pitch.getValue(), pitchRange = CONFIGS.pitchRange.getValue();
-        //? if >=26.3 {
+        // #30: wrap first, or a turned head sits outside the range and gets clamped to its edge
         final float headClamp = (float) Mth.clamp(Mth.wrapDegrees(headLerp), headYaw - headYawRange, headYaw + headYawRange);
-        //?}
-        //? if <26.3 {
-        /*final float headClamp = (float) Mth.clamp(headLerp, headYaw - headYawRange, headYaw + headYawRange);
-        *///?}
         final float bodyLerp = Mth.lerp(partialTicks, targetEntity.yBodyRotO, targetEntity.yBodyRot);
         final float diff = headLerp - bodyLerp;
         final float bodyClamp = (float) Mth.clamp(Mth.wrapDegrees(headClamp - diff), bodyYaw - bodyYawRange, bodyYaw + bodyYawRange);
@@ -420,6 +433,7 @@ public class PaperDollRenderer {
         *///?}
             targetEntity.yBodyRot = targetEntity.yBodyRotO = 180 - bodyClamp;
         }
+        final float bodyYawShift = rotationMode == RotationMode.LOCK ? Mth.wrapDegrees(180 - bodyClamp - bodyLerp) : 0;
 
         // 头部俯视角度
         targetEntity.setXRot(targetEntity.xRotO = pitchClamp);
@@ -439,6 +453,7 @@ public class PaperDollRenderer {
 
         targetEntity.setSharedFlag(0, false);
         *///?}
+        return bodyYawShift;
     }
 
     //? if <1.21.3 {
@@ -542,12 +557,10 @@ public class PaperDollRenderer {
 
         *///?}
 
-        //? if >=26.3 {
+        //? if >=1.21.6 {
+        // #30: Light Degree turns the light in ModRenderer, not the whole doll
         pose.mul(configRot).rotateY((float) Math.PI);
         //?}
-        //? if >=1.21.6 && <26.3 {
-        /*pose.mul(configRot).rotateY((float) Math.toRadians(lightDegree + 180));
-        *///?}
         //? if <1.21.6 {
         /*zRot.mul(xyzRot);
         poseStack.mulPose(zRot);
@@ -601,7 +614,7 @@ public class PaperDollRenderer {
                         CONFIGS.mirrored.getValue()
                         //?}
                         //? if >=26.1 && <26.3 {
-                        /*(int) posX, (int) posY,(float) size, null
+                        /*(int) posX, (int) posY, (float) size, (float) Math.toRadians(lightDegree), null
                         *///?}
                 //? if >=26.1 {
                 )
@@ -617,11 +630,13 @@ public class PaperDollRenderer {
                 (float) size,
         *///?}
                 //? if >=1.21.9 && <26.1 {
-                /*boat
+                /*boat,
+                (float) Math.toRadians(lightDegree)
                 *///?}
                 //? if >=1.21.6 && <1.21.9 {
                 /*boat,
-                getLight(targetEntity, partialTicks)
+                getLight(targetEntity, partialTicks),
+                (float) Math.toRadians(lightDegree)
                 *///?}
         //? if >=1.21.6 {
         );
@@ -688,11 +703,12 @@ public class PaperDollRenderer {
         state.lightCoords = getLight(targetEntity, a);
         state.shadowPieces.clear();
         state.outlineColor = 0;
+        // #24: no name tags on the doll (with a freecam the camera isn't you, so yours would show)
+        state.nameTag = null;
         //?}
         //? if >=26.3 {
 
         state.scoreText = null;
-        state.nameTag = null;
         state.displayFireAnimation = false;
 
         if (state instanceof BoatRenderState boatState) {
