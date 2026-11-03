@@ -1,6 +1,6 @@
 ![Kartoneks Paperdoll](Promotional%20Images/Infographics/banner.png)
 
-<img src="art/kartonek_icon.png" alt="Kartonek" width="128" align="right">
+<img src="art/paperdoll_icon.png" alt="Kartoneks Paperdoll icon" width="128" align="right">
 
 **See yourself while you play.** Kartoneks Paperdoll draws a live model of your player in a corner of the
 screen: your skin, armor and held items, copying every move you make.
@@ -48,9 +48,10 @@ version- and loader-specific code sits in `//? if` comments.
 Jars land in `build/libs/<mod version>/`. Per-version dependencies are in `stonecutter.properties.toml`.
 
 ## Art
-- **Icon:** a 3D render of Kartonek's skin (`art/kartonek_skin.png`) over the cherry grove from `art/screenshot.webp`.
-  `art/kartonek_icon.psd` holds the layers (Background, Vignette, Glow, Shadow, Kartonek) and `art/kartonek_icon.png`
-  is the flat render. To rebuild: `node art/render.js` makes the 3D render, then `python3 art/compose.py` builds both files.
+- **Icon:** the paper doll from the screenshot `Promotional Images/Original/2026-11-03_22.22.25.png`, framed by viewfinder corners.
+  `art/paperdoll_icon.psd` holds the layers (Screenshot, Vignette, Corner brackets) and `art/paperdoll_icon.png` is the flat icon.
+  `python3 art/paperdoll_icon.py` rebuilds both and copies the PNG to the `icon.png` files the loaders use.
+  The previous icon, a 3D render of Kartonek, is still in `art/kartonek_icon.*` (`art/render.js` + `art/compose.py`).
 - **Promotional images:** the infographics above, their layered PSDs and the screenshots they use are in
   [`Promotional Images/`](Promotional%20Images/README.md). `MODRINTH.md` and `CURSEFORGE.md` are the mod page descriptions.
 
