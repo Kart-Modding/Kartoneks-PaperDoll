@@ -1,16 +1,30 @@
-# Kartoneks Paperdoll
+![Kartoneks Paperdoll](Promotional%20Images/Infographics/banner.png)
 
 <img src="art/kartonek_icon.png" alt="Kartonek" width="128" align="right">
 
-Kartoneks Paperdoll is a fork of **Ayame PaperDoll**, starring Kartonek, the mascot of my projects.
-All credit for the mod itself goes to the original authors; see below.
+**See yourself while you play.** Kartoneks Paperdoll draws a live model of your player in a corner of the
+screen: your skin, armor and held items, copying every move you make.
 
-**Original mod — Ayame PaperDoll:** [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/class/17015.html)
+It is a fork of **Ayame PaperDoll**, starring Kartonek, the mascot of my projects. All credit for the mod
+itself goes to the original authors; see [Credits](#credits).
 
-Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer). It adds support for **NeoForge, Forge, Quilt and higher versions of Minecraft**, along with **more useful key bindings**, **additional configuration options** (such as **Rotation Unlock**), and a **Visual Configuration Editor**.
+**Download:** [Modrinth](https://modrinth.com/project/zWdPWnpB) | [CurseForge](https://www.curseforge.com/projects/1779628) | [GitHub releases](https://github.com/Kart-Modding/Kartoneks-PaperDoll/releases)
 
-### Versions and loaders
-One build covers **Minecraft 1.21.1 – 26.3** on every loader:
+![How it works](Promotional%20Images/Infographics/how-it-works.png)
+
+![Features](Promotional%20Images/Infographics/features.png)
+
+![Every pose](Promotional%20Images/Infographics/poses.png)
+
+## Setup
+- **Fabric / Quilt:** needs [Fabric API](https://modrinth.com/mod/fabric-api) ([QFAPI](https://modrinth.com/mod/qsl) on Quilt). Settings are in [Mod Menu](https://modrinth.com/mod/modmenu), which is optional.
+- **NeoForge / Forge:** settings are in *Mods → Kartoneks Paperdoll → Config*.
+- **F8** shows or hides the paper doll. A key that opens the settings can be set in *Options → Controls*.
+- **Visual Configuration Editor:** in the settings, left-drag the doll to move it, right-drag to rotate it and scroll to resize it.
+- Client-side only, so it works on any server.
+
+## Versions and loaders
+![Compatibility](Promotional%20Images/Infographics/compatibility.png)
 
 | Loader | Jar | Minecraft | Config screen |
 |---|---|---|---|
@@ -23,28 +37,26 @@ Pick the jar whose name ends in your Minecraft version (`+1.21.8`, `+26.3`, ...)
 version are built by GitHub Actions on each push (Actions tab → latest run → Artifacts) and attached
 to each GitHub release; a release `v<version>` is created automatically when `mod.version` changes on main.
 
-### Building
+## Building
 The source tree is shared by every version with [Stonecutter](https://stonecutter.kikugie.dev/):
 version- and loader-specific code sits in `//? if` comments.
 
-```
+```bash
 ./gradlew buildFabric     # or buildNeoforge / buildForge / chiseledBuild for everything
 ```
 
 Jars land in `build/libs/<mod version>/`. Per-version dependencies are in `stonecutter.properties.toml`.
 
-### Icon
-The icon is a 3D render of Kartonek's skin (`art/kartonek_skin.png`) over the cherry grove from `art/screenshot.webp`.
-`art/kartonek_icon.psd` holds the layers (Background, Vignette, Glow, Shadow, Kartonek) and `art/kartonek_icon.png`
-is the flat render. To rebuild: `node art/render.js` makes the 3D render, then `python3 art/compose.py` builds both files.
+## Art
+- **Icon:** a 3D render of Kartonek's skin (`art/kartonek_skin.png`) over the cherry grove from `art/screenshot.webp`.
+  `art/kartonek_icon.psd` holds the layers (Background, Vignette, Glow, Shadow, Kartonek) and `art/kartonek_icon.png`
+  is the flat render. To rebuild: `node art/render.js` makes the 3D render, then `python3 art/compose.py` builds both files.
+- **Promotional images:** the infographics above, their layered PSDs and the screenshots they use are in
+  [`Promotional Images/`](Promotional%20Images/README.md). `MODRINTH.md` and `CURSEFORGE.md` are the mod page descriptions.
 
-### Default Position and Style:
-![Default Position and Style](https://cdn.modrinth.com/data/cached_images/6e7af18771d006eda3077d33800250bc80cdd647.png)
+## Credits
+**Original mod, Ayame PaperDoll:** [Modrinth](https://modrinth.com/mod/ayame-paperdoll) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ayame-paperdoll) | [McMod](https://www.mcmod.cn/class/17015.html)
 
-By default, it renders a player model in the top-left corner of the screen and provides a richly customizable configuration screen, which can be accessed through the mod menu or a key binding (default is none). You can also toggle the visibility of the paper doll using a key binding (default is F8).
-
-### Config Screen:
-![Config Screen](https://cdn.modrinth.com/data/cached_images/44e1b59e5019df8f03c34fa5d677841eacc26896.png)
-![Config Screen](https://cdn.modrinth.com/data/cached_images/c3e90083ab02fc63bda0da3bab7b851f8308382e.png)
-### Visual Configuration Editor:
-![Visual Configuration Editor](https://cdn.modrinth.com/data/cached_images/0bda8a26fc0822669f736d4caa0fee140354bdb2.png)
+Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer).
+It adds support for **NeoForge, Forge, Quilt and higher versions of Minecraft**, along with **more useful key bindings**,
+**additional configuration options** (such as **Rotation Unlock**), and a **Visual Configuration Editor**.

@@ -1,16 +1,16 @@
-![Kartoneks Paperdoll](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/main/Promotional%20Images/Infographics/banner.png)
+![Kartoneks Paperdoll](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/4bcc4f60a37295f47267f021a989e295cf57692a/Promotional%20Images/Infographics/banner.png)
 
 **See yourself while you play.** Kartoneks Paperdoll draws a live model of your player in a corner of the screen: your skin, armor and held items, copying every move you make.
 
-![How it works](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/main/Promotional%20Images/Infographics/how-it-works.png)
+![How it works](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/4bcc4f60a37295f47267f021a989e295cf57692a/Promotional%20Images/Infographics/how-it-works.png)
 
-![In game](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/main/Promotional%20Images/Compressed/2026-11-03_22.22.25.jpg)
+![In game](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/4bcc4f60a37295f47267f021a989e295cf57692a/Promotional%20Images/Compressed/2026-11-03_22.22.25.jpg)
 
-![Features](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/main/Promotional%20Images/Infographics/features.png)
+![Features](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/4bcc4f60a37295f47267f021a989e295cf57692a/Promotional%20Images/Infographics/features.png)
 
-![Every pose](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/main/Promotional%20Images/Infographics/poses.png)
+![Every pose](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/4bcc4f60a37295f47267f021a989e295cf57692a/Promotional%20Images/Infographics/poses.png)
 
-![Compatibility](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/main/Promotional%20Images/Infographics/compatibility.png)
+![Compatibility](https://raw.githubusercontent.com/Kart-Modding/Kartoneks-PaperDoll/4bcc4f60a37295f47267f021a989e295cf57692a/Promotional%20Images/Infographics/compatibility.png)
 
 ## Setup
 - **Fabric / Quilt** - needs [Fabric API](https://modrinth.com/mod/fabric-api) ([QFAPI](https://modrinth.com/mod/qsl) on Quilt); settings via [Mod Menu](https://modrinth.com/mod/modmenu) (optional)
