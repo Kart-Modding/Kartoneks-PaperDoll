@@ -75,5 +75,5 @@ for name, im in layers:
     psd.append(PixelLayer.frompil(im, psd, name, 0, 0))
 psd.save(os.path.join(ROOT, 'art', 'paperdoll_icon.psd'))
 
-for dest in ('src/main/resources/icon.png', 'src/main/resources/assets/ayame_paperdoll/icon.png'):
+for dest in ('src/main/resources/icon.png', 'src/main/resources/assets/kartoneks_paperdoll/icon.png'):
     shutil.copyfile(png, os.path.join(ROOT, dest))

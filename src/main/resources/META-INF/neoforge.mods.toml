@@ -30,7 +30,7 @@ ordering = "NONE"
 side = "CLIENT"
 
 [[mixins]]
-config = "ayame-paperdoll.mixins.json"
+config = "kartoneks-paperdoll.mixins.json"
 
 [[accessTransformers]]
 file = "META-INF/accesstransformer.cfg"

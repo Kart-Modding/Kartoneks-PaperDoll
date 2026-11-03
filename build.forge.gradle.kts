@@ -22,7 +22,7 @@ val clientMixins = (extra["apdClientMixins"] as String).let {
 val modId = property("mod.id") as String
 val modName = property("mod.name") as String
 val modVersion = property("mod.version") as String
-val mixinConfig = "ayame-paperdoll.mixins.json"
+val mixinConfig = "kartoneks-paperdoll.mixins.json"
 
 // `<minecraft>-<forge>`, see stonecutter.properties.toml
 val forgeVersion: String = sc.properties["deps.forge"]

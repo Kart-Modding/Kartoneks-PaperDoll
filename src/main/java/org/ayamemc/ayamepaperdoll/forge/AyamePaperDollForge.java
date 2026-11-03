@@ -130,7 +130,7 @@ public final class AyamePaperDollForge {
     /*private static void registerHudLayer(AddGuiOverlayLayersEvent event) {
         event.getLayeredDraw().addAbove(
                 ForgeLayeredDraw.PRE_SLEEP_STACK,
-                AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),
+                AyamePaperDoll.path("renderer_layer_after_misc_overlays"),
                 ForgeLayeredDraw.CAMERA_OVERLAY,
                 EventHandler::renderPaperDoll
         );
@@ -143,7 +143,7 @@ public final class AyamePaperDollForge {
     /*private static void registerHudLayer(AddGuiOverlayLayersEvent event) {
         event.getLayeredDraw().addAbove(
                 ForgeLayeredDraw.PRE_SLEEP_STACK,
-                AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),
+                AyamePaperDoll.path("renderer_layer_after_misc_overlays"),
                 ForgeLayeredDraw.CAMERA_OVERLAY,
                 EventHandler::renderPaperDoll
         );

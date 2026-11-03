@@ -57,10 +57,12 @@ import org.ayamemc.ayamepaperdoll.config.persistence.GsonConfigPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class AyamePaperDoll {
-    public static final String MOD_ID = "ayame_paperdoll";
+    public static final String MOD_ID = "kartoneks_paperdoll";
     public static final String MOD_NAME = "Kartoneks Paperdoll";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
     //? if >=1.21.6 && <26.1 {
@@ -101,7 +103,7 @@ public final class AyamePaperDoll {
             /*"key.%s.category".formatted(MOD_ID));
             *///?}
     public static final Configs CONFIGS = new Configs();
-    public static final ConfigPersistence CONFIG_PERSISTENCE = new GsonConfigPersistence(Path.of("config/" + MOD_ID + "_v0.json"));
+    public static final ConfigPersistence CONFIG_PERSISTENCE = new GsonConfigPersistence(configPath());
     //? if >=26.2 && <26.3 {
     /*private static final RenderPipeline.Snippet GUI_TEXTURED_SNIPPET_NEW = RenderPipeline.builder()
             .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION)
@@ -157,5 +159,22 @@ public final class AyamePaperDoll {
     public static void init() {
         // Write common init code here.
         CONFIG_PERSISTENCE.load(AyamePaperDoll.CONFIGS.getOptions());
+    }
+
+    /**
+     * The config file. Settings saved before the mod ID changed from ayame_paperdoll are carried over once,
+     * with their keys renamed to the new ID; the old file stays, so Ayame PaperDoll itself keeps its settings.
+     */
+    private static Path configPath() {
+        Path path = Path.of("config/" + MOD_ID + "_v0.json");
+        Path old = Path.of("config/ayame_paperdoll_v0.json");
+        if (Files.notExists(path) && Files.exists(old)) {
+            try {
+                Files.writeString(path, Files.readString(old).replace("\"ayame_paperdoll:", "\"" + MOD_ID + ":"));
+            } catch (IOException e) {
+                LOGGER.warn("Couldn't copy the old config {} to {}", old, path, e);
+            }
+        }
+        return path;
     }
 }

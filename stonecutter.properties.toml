@@ -1,5 +1,5 @@
 # See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
-mod.id = "ayame_paperdoll"
+mod.id = "kartoneks_paperdoll"
 mod.name = "Kartoneks Paperdoll"
 mod.group = "org.ayamemc.ayamepaperdoll"
 mod.version = "4.5.2"

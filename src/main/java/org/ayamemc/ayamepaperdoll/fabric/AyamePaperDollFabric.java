@@ -85,14 +85,14 @@ public class AyamePaperDollFabric implements ClientModInitializer {
         //? if fabric && >=1.21.6 {
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.MISC_OVERLAYS,
-                AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),
+                AyamePaperDoll.path("renderer_layer_after_misc_overlays"),
                 EventHandler::renderPaperDoll
         //?}
         //? if fabric && >=1.21.4 && <1.21.6 {
         /*HudLayerRegistrationCallback.EVENT.register(layeredDrawer ->
                 layeredDrawer.attachLayerAfter(
                         IdentifiedLayer.MISC_OVERLAYS,
-                        AyamePaperDoll.path("ayame_paperdoll_renderer_layer_after_misc_overlays"),
+                        AyamePaperDoll.path("renderer_layer_after_misc_overlays"),
                         EventHandler::renderPaperDoll)
         *///?}
         //? if fabric && >=1.21.4 {

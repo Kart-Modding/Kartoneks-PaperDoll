@@ -256,7 +256,7 @@ public class ModRenderer extends PictureInPictureRenderer<ModRenderState> {
 
     @Override
     protected @NotNull String getTextureLabel() {
-        return "ayame-paperdoll";
+        return "kartoneks-paperdoll";
     }
     //?}
     //? if >=26.2 {

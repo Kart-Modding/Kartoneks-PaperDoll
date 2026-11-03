@@ -23,7 +23,7 @@
     "issues": "https://github.com/Kart-Modding/Kartoneks-PaperDoll/issues"
   },
   "license": "LGPL-3.0-or-later",
-  "icon": "assets/ayame_paperdoll/icon.png",
+  "icon": "assets/kartoneks_paperdoll/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -34,9 +34,9 @@
     ]
   },
   "mixins": [
-    "ayame-paperdoll.mixins.json"
+    "kartoneks-paperdoll.mixins.json"
   ],
-  "accessWidener": "ayame-paperdoll.accesswidener",
+  "accessWidener": "kartoneks-paperdoll.accesswidener",
   "depends": {
     "fabricloader": ">=0.16.0",
     "minecraft": "${minecraft}",
@@ -48,8 +48,8 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.ayame_paperdoll.original_mod": "https://modrinth.com/mod/ayame-paperdoll",
-        "modmenu.ayame_paperdoll.extra_player_renderer": "https://modrinth.com/mod/extraplayerrenderer"
+        "modmenu.kartoneks_paperdoll.original_mod": "https://modrinth.com/mod/ayame-paperdoll",
+        "modmenu.kartoneks_paperdoll.extra_player_renderer": "https://modrinth.com/mod/extraplayerrenderer"
       }
     }
   }

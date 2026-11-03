@@ -38,7 +38,7 @@ extra["apdClientMixins"] = buildList {
 val widenerBlocks: List<String> = run {
     val since = Regex("""^# @since (\S+)""")
     val until = Regex("""^# @until (\S+)""")
-    rootProject.file("src/main/accesswidener/ayame-paperdoll.accesswidener").readText()
+    rootProject.file("src/main/accesswidener/kartoneks-paperdoll.accesswidener").readText()
         .split(Regex("\n\\s*\n")).filter { block ->
             val lines = block.lines()
             val from = lines.firstNotNullOfOrNull { since.find(it)?.groupValues?.get(1) }
@@ -49,7 +49,7 @@ val widenerBlocks: List<String> = run {
 
 // The access widener Loom reads: named namespace on obfuscated versions, official from 26.1
 run {
-    val file = layout.buildDirectory.file("generated/accesswidener/ayame-paperdoll.accesswidener").get().asFile
+    val file = layout.buildDirectory.file("generated/accesswidener/kartoneks-paperdoll.accesswidener").get().asFile
     file.parentFile.mkdirs()
     file.writeText(widenerBlocks.joinToString("\n\n")
         .replace("\${namespace}", if (atLeast("26.1")) "official" else "named").trimEnd() + "\n")
