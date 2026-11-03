@@ -8,3 +8,4 @@ run/
 /buildSrc/.gradle/
 /.idea/
 !/.idea/copyright/
+node_modules/

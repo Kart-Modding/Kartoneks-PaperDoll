@@ -1,0 +1,71 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css">
+<style>
+    .wrap { display: flex; gap: 56px; align-items: center; }
+    .stage { position: relative; flex: none; width: 896px; height: 560px; }
+    .screen { position: absolute; inset: 0; border-radius: 22px; overflow: hidden; box-shadow: 0 0 0 1.5px var(--edge); }
+    .screen img { width: 100%; height: 100%; }
+    .tag { position: absolute; right: 16px; top: 16px; padding: 7px 12px; border-radius: 8px; background: rgba(12,14,18,.85);
+        font: 700 14px/16px 'Inter'; letter-spacing: 1.4px; color: #e3e5ea; }
+    .outline { position: absolute; border: 3px dashed var(--yellow); border-radius: 12px; }
+    .leader { position: absolute; height: 0; border-top: 3px dashed var(--yellow); }
+    .zoom { position: absolute; width: 300px; height: 300px; border-radius: 22px; overflow: hidden;
+        box-shadow: 0 0 0 3px var(--yellow), 0 22px 50px rgba(0,0,0,.6); }
+    .zoom .crop { width: 100%; height: 100%; }
+    .zoom-label { position: absolute; padding: 7px 12px; border-radius: 8px; background: var(--yellow);
+        font: 800 14px/16px 'Inter'; letter-spacing: 1.4px; color: #15161a; }
+
+    .side { flex: 1; }
+    .head { margin-bottom: 40px; }
+    ol { list-style: none; display: flex; flex-direction: column; gap: 30px; }
+    li { position: relative; display: flex; gap: 22px; align-items: flex-start; }
+    .num { position: relative; flex: none; width: 46px; height: 46px; }
+    .num .bg { position: absolute; inset: 0; border-radius: 23px; background: var(--yellow); }
+    .num span { position: absolute; inset: 0; text-align: center; font: 800 22px/46px 'Inter'; color: #15161a; }
+    .item { display: flex; flex-direction: column; gap: 6px; padding-top: 2px; }
+    .item h3 { font: 700 28px/34px 'Inter'; letter-spacing: -0.3px; }
+    .item p { font: 400 21px/28px 'Inter'; color: var(--sub); }
+</style></head>
+<body>
+<div class="page-bg" data-layer="Background"></div>
+<div class="wrap">
+    <div class="stage" data-group="In-game shot">
+        <div class="screen" data-layer="Screenshot (22.27.23)"><img src="../../Original/2026-11-03_22.27.23.png"></div>
+        <div class="tag" data-layer="IN GAME" data-text>IN GAME</div>
+        <div class="outline" style="left:34px; top:14px; width:84px; height:130px" data-layer="Dashed outline"></div>
+        <div class="leader" style="left:118px; top:150px; width:62px; transform-origin:0 0; transform:rotate(28deg)" data-layer="Leader line"></div>
+        <div class="zoom" style="left:176px; top:120px" data-layer="Zoom - paper doll">
+            <div class="crop" style="--x:40;--y:20;--s:1.07"><img src="../../Original/2026-11-03_22.27.23.png"></div></div>
+        <div class="zoom-label" style="left:192px; top:384px" data-layer="PAPER DOLL" data-text>PAPER DOLL</div>
+    </div>
+
+    <div class="side">
+        <div class="head" data-group="Heading">
+            <div class="eyebrow" data-layer="HOW IT WORKS" data-text>HOW IT WORKS</div>
+            <div class="title" data-layer="You, on your HUD" data-text>You, on your HUD</div>
+        </div>
+        <ol data-group="Steps">
+            <li data-group="1 - Every move, live">
+                <div class="num"><div class="bg" data-layer="Circle"></div><span data-layer="1" data-text>1</span></div>
+                <div class="item"><h3 data-layer="Every move, live" data-text>Every move, live</h3>
+                    <p data-layer="Walking, jumping, swimming, riding" data-text>Walking, jumping, swimming, riding and hand swings.</p></div>
+            </li>
+            <li data-group="2 - Armor and items">
+                <div class="num"><div class="bg" data-layer="Circle"></div><span data-layer="2" data-text>2</span></div>
+                <div class="item"><h3 data-layer="Armor and items" data-text>Armor and items</h3>
+                    <p data-layer="Your skin, cape, armor" data-text>Your skin, cape, armor and whatever is in your hands.</p></div>
+            </li>
+            <li data-group="3 - Lit like the world">
+                <div class="num"><div class="bg" data-layer="Circle"></div><span data-layer="3" data-text>3</span></div>
+                <div class="item"><h3 data-layer="Lit like the world" data-text>Lit like the world</h3>
+                    <p data-layer="Darker in caves" data-text>Darker in caves, bright in the sun.</p></div>
+            </li>
+            <li data-group="4 - F8 to hide it">
+                <div class="num"><div class="bg" data-layer="Circle"></div><span data-layer="4" data-text>4</span></div>
+                <div class="item"><h3 data-layer="F8 to hide it" data-text>F8 to hide it</h3>
+                    <p data-layer="Settings from Mod Menu" data-text>Settings from Mod Menu, the Mods list or a key of your choice.</p></div>
+            </li>
+        </ol>
+    </div>
+</div>
+</body></html>

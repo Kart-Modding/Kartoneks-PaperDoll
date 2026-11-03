@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css">
+<style>
+    .grid { display: grid; grid-template-columns: repeat(3, 469px); column-gap: 24px; row-gap: 40px; }
+    .tile { display: flex; flex-direction: column; align-items: flex-start; }
+    .tile .crop { width: 469px; height: 293px; border-radius: 20px; box-shadow: 0 0 0 1.5px var(--edge); }
+    .tile h3 { margin-top: 20px; font: 700 28px/34px 'Inter'; letter-spacing: -0.3px; }
+    .tile p { margin-top: 6px; font: 400 21px/28px 'Inter'; color: var(--sub); }
+</style></head>
+<body>
+<div class="page-bg" data-layer="Background"></div>
+<div class="wrap">
+    <div class="head" data-group="Heading">
+        <div class="eyebrow" data-layer="EVERY POSE" data-text>EVERY POSE</div>
+        <div class="title" data-layer="It keeps up with you" data-text>It keeps up with you</div>
+    </div>
+    <div class="grid" data-group="Tiles">
+        <div class="tile" data-group="Running">
+            <div class="crop" style="--x:0;--y:10;--s:1.1725" data-layer="Screenshot (22.22.25)"><img src="../../Original/2026-11-03_22.22.25.png"></div>
+            <h3 data-layer="Running" data-text>Running</h3>
+            <p data-layer="Arms and legs keep pace" data-text>Arms and legs keep pace, sword in hand</p>
+        </div>
+        <div class="tile" data-group="Jumping">
+            <div class="crop" style="--x:0;--y:10;--s:1.1725" data-layer="Screenshot (22.23.43)"><img src="../../Original/2026-11-03_22.23.43.png"></div>
+            <h3 data-layer="Jumping" data-text>Jumping</h3>
+            <p data-layer="Mid-air, item in hand" data-text>Mid-air, item still in hand</p>
+        </div>
+        <div class="tile" data-group="Swimming">
+            <div class="crop" style="--x:0;--y:10;--s:1.1725" data-layer="Screenshot (22.23.50)"><img src="../../Original/2026-11-03_22.23.50.png"></div>
+            <h3 data-layer="Swimming" data-text>Swimming</h3>
+            <p data-layer="Posture offsets keep it in frame" data-text>Posture offsets keep it in frame</p>
+        </div>
+        <div class="tile" data-group="Minecart">
+            <div class="crop" style="--x:0;--y:10;--s:1.1725" data-layer="Screenshot (22.26.15)"><img src="../../Original/2026-11-03_22.26.15.png"></div>
+            <h3 data-layer="Minecart" data-text>Minecart</h3>
+            <p data-layer="Your ride is drawn too" data-text>Your ride is drawn too, lit by the world</p>
+        </div>
+        <div class="tile" data-group="Boat">
+            <div class="crop" style="--x:0;--y:10;--s:1.1725" data-layer="Screenshot (22.26.45)"><img src="../../Original/2026-11-03_22.26.45.png"></div>
+            <h3 data-layer="Boat" data-text>Boat</h3>
+            <p data-layer="Sits in the boat" data-text>Sits in the boat, just like you</p>
+        </div>
+        <div class="tile" data-group="Hurt flash">
+            <div class="crop" style="--x:0;--y:10;--s:1.1725" data-layer="Screenshot (22.27.58)"><img src="../../Original/2026-11-03_22.27.58_2.png"></div>
+            <h3 data-layer="Hurt flash" data-text>Hurt flash</h3>
+            <p data-layer="Turns red when you take damage" data-text>Turns red when you take damage</p>
+        </div>
+    </div>
+</div>
+</body></html>

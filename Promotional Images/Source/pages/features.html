@@ -1,0 +1,61 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css">
+<style>
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .feature { position: relative; display: flex; align-items: center; gap: 28px; height: 190px; padding: 0 30px 0 35px; }
+    .feature > .card { position: absolute; inset: 0; }
+    .icon { position: relative; flex: none; width: 108px; height: 108px; border-radius: 18px; background: var(--tile); overflow: hidden; }
+    .icon .crop { position: absolute; inset: 0; }
+    .icon svg { position: absolute; inset: 0; margin: auto; }
+    .text { position: relative; display: flex; flex-direction: column; gap: 8px; }
+    .text h3 { font: 800 30px/36px 'Inter'; letter-spacing: -0.4px; }
+    .text p { font: 400 22px/30px 'Inter'; color: var(--sub); }
+</style></head>
+<body>
+<div class="page-bg" data-layer="Background"></div>
+<div class="wrap">
+    <div class="head" data-group="Heading">
+        <div class="eyebrow" data-layer="FEATURES" data-text>FEATURES</div>
+        <div class="title" data-layer="Everything at a glance" data-text>Everything at a glance</div>
+    </div>
+    <div class="grid" data-group="Cards">
+        <div class="feature" data-group="Card - Live paper doll">
+            <div class="card" data-layer="Card"></div>
+            <div class="icon" data-layer="Icon tile"><div class="crop" style="--x:70;--y:40;--s:0.42"><img src="../../Original/2026-11-03_22.27.23.png"></div></div>
+            <div class="text"><h3 data-layer="Live paper doll" data-text>Live paper doll</h3><p data-layer="Your player, in a corner" data-text>Your player, in a corner of the screen</p></div>
+        </div>
+        <div class="feature" data-group="Card - Every pose">
+            <div class="card" data-layer="Card"></div>
+            <div class="icon" data-layer="Icon tile"><div class="crop" style="--x:40;--y:0;--s:0.48"><img src="../../Original/2026-11-03_22.23.50.png"></div></div>
+            <div class="text"><h3 data-layer="Every pose" data-text>Every pose</h3><p data-layer="Sneak, swim, glide and ride" data-text>Sneaking, swimming, riding - it keeps up</p></div>
+        </div>
+        <div class="feature" data-group="Card - Hurt flash">
+            <div class="card" data-layer="Card"></div>
+            <div class="icon" data-layer="Icon tile"><div class="crop" style="--x:55;--y:35;--s:0.5"><img src="../../Original/2026-11-03_22.27.58_2.png"></div></div>
+            <div class="text"><h3 data-layer="Hurt flash" data-text>Hurt flash</h3><p data-layer="Flashes red when you take damage" data-text>Flashes red when you take damage</p></div>
+        </div>
+        <div class="feature" data-group="Card - Any corner">
+            <div class="card" data-layer="Card"></div>
+            <div class="icon" data-layer="Icon tile">
+                <svg width="72" height="52" viewBox="0 0 72 52"><rect x="2" y="2" width="68" height="48" rx="6" fill="none" stroke="#9aa0ab" stroke-width="3"/>
+                    <rect x="9" y="9" width="12" height="12" rx="2" fill="#ffcc4d"/><rect x="51" y="9" width="12" height="12" rx="2" fill="#4a505c"/>
+                    <rect x="9" y="31" width="12" height="12" rx="2" fill="#4a505c"/><rect x="51" y="31" width="12" height="12" rx="2" fill="#4a505c"/></svg></div>
+            <div class="text"><h3 data-layer="Any corner" data-text>Any corner</h3><p data-layer="Four presets" data-text>Four presets, or drag it in the visual editor</p></div>
+        </div>
+        <div class="feature" data-group="Card - Rotation modes">
+            <div class="card" data-layer="Card"></div>
+            <div class="icon" data-layer="Icon tile">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M50 30a20 20 0 1 1-6-14.3" stroke="#5b8cff"/><path d="M46 6v10H36" stroke="#5b8cff"/></svg></div>
+            <div class="text"><h3 data-layer="Rotation modes" data-text>Rotation modes</h3><p data-layer="Lock, Smooth lock or Unlock" data-text>Lock, Smooth lock or turn freely</p></div>
+        </div>
+        <div class="feature" data-group="Card - Client-side">
+            <div class="card" data-layer="Card"></div>
+            <div class="icon" data-layer="Icon tile">
+                <svg width="56" height="62" viewBox="0 0 56 62" fill="none" stroke="#5ad62a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M28 4 6 12v16c0 15 9.5 25 22 30 12.5-5 22-15 22-30V12z"/><path d="m18 31 7 7 13-14"/></svg></div>
+            <div class="text"><h3 data-layer="Client-side" data-text>Client-side</h3><p data-layer="Works on any server" data-text>Works on any server, nothing to install there</p></div>
+        </div>
+    </div>
+</div>
+</body></html>

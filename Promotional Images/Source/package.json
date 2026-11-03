@@ -1,0 +1,13 @@
+{
+  "name": "kartoneks-paperdoll-promo",
+  "private": true,
+  "description": "Builds the infographics in ../Infographics (PNG + layered PSD) from pages/*.html",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "ag-psd": "27.0.0",
+    "playwright": "1.63.0",
+    "pngjs": "7.0.0"
+  }
+}
