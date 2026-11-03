@@ -104,7 +104,7 @@ public class ConfigWidgetRegistry {
                 (option.getValue() - option.getMin()) / (option.getMax() - option.getMin()),
                 val -> setter.setValue(Mth.lerp(val, option.getMin(), option.getMax())),
                 val -> Component.nullToEmpty("%.2f".formatted(option.getValue())));
-        var field = new NumberField("-?\\d*\\.?\\d*");
+        var field = new NumberField();
         var reset = getResetButton(option, setter);
         Runnable showValue = () -> field.show(new BigDecimal(option.getValue()).setScale(4, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString());
         field.listen(text -> {
@@ -135,7 +135,7 @@ public class ConfigWidgetRegistry {
                 (option.getValue() - option.getMin()) / steps,
                 val -> setter.setValue((int) Math.round(val * steps) + option.getMin()),
                 val -> Component.nullToEmpty(Integer.toString(option.getValue())));
-        var field = new NumberField("-?\\d*");
+        var field = new NumberField();
         var reset = getResetButton(option, setter);
         Runnable showValue = () -> field.show(Integer.toString(option.getValue()));
         field.listen(text -> {
@@ -254,10 +254,10 @@ public class ConfigWidgetRegistry {
         private static final int INVALID_COLOR = 0xFFFF5555;
         private Runnable onUnfocus = () -> {};
 
-        public NumberField(String allowedPattern) {
+        public NumberField() {
+            // No character filter: EditBox lost setFilter in 26.1, and text that isn't a number turns red anyway
             super(NUMBER_FIELD_WIDTH, WIDGET_HEIGHT);
             this.setMaxLength(12);
-            this.setFilter(text -> text.matches(allowedPattern));
         }
 
         /**
