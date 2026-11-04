@@ -126,5 +126,7 @@
   "config.kartoneks_paperdoll.option.auto_hide.desc": "效果类似基岩版的纸娃娃：移动、跳跃、潜行、疾跑、游泳、飞行、骑乘、战斗或使用物品时显示，静止几秒后自动隐藏。\n\n按显示/隐藏键可立即重新显示。",
   "config.kartoneks_paperdoll.option.auto_hide_delay": "隐藏延迟",
   "config.kartoneks_paperdoll.option.auto_hide_delay.desc": "静止多少秒后隐藏纸娃娃。\n\n仅在开启§a闲置时隐藏§r时生效。",
-  "config.kartoneks_paperdoll.screen.why.auto_hide": "需要开启闲置时隐藏。"
+  "config.kartoneks_paperdoll.screen.why.auto_hide": "需要开启闲置时隐藏。",
+  "config.kartoneks_paperdoll.screen.preview": "预览",
+  "config.kartoneks_paperdoll.screen.adjust_location": "调整位置"
 }

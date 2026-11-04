@@ -126,5 +126,7 @@
   "config.kartoneks_paperdoll.option.auto_hide.desc": "Works like the paper doll in Bedrock Edition: it shows up while you move, jump, sneak, sprint, swim, fly, ride, fight or use items, and hides after a few seconds of standing still.\n\nThe show/hide key brings it back right away.",
   "config.kartoneks_paperdoll.option.auto_hide_delay": "Hide After",
   "config.kartoneks_paperdoll.option.auto_hide_delay.desc": "Seconds of standing still before the paper doll hides.\n\nWorks only when §aHide When Idle§r is on.",
-  "config.kartoneks_paperdoll.screen.why.auto_hide": "Needs Hide When Idle."
+  "config.kartoneks_paperdoll.screen.why.auto_hide": "Needs Hide When Idle.",
+  "config.kartoneks_paperdoll.screen.preview": "Preview",
+  "config.kartoneks_paperdoll.screen.adjust_location": "Adjust location"
 }

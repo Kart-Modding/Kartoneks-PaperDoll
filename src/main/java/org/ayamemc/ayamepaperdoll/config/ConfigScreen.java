@@ -73,9 +73,9 @@ import java.util.function.Predicate;
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 /**
- * Settings screen, modelled on the one in Spoty Widget: the live paper doll stays visible over the
- * world on one side, and a searchable, scrolling list of settings fills the other side. The list
- * moves to whichever side the doll is not on. Each row has a reset button that shows up once the
+ * Settings screen, modelled on the one in Spoty Widget: a live preview of the paper doll on the left,
+ * with the corner presets and the visual editor under it, and a searchable, scrolling list of
+ * settings on the right. The doll in the HUD is hidden while the screen is open. Each row has a reset button that shows up once the
  * value differs from its default, and rows that do nothing in the current setup are greyed out with
  * a tooltip that says why. The list is laid out by hand, as the vanilla list classes change between
  * versions.
@@ -110,7 +110,6 @@ public class ConfigScreen extends Screen {
     private double grabOffset;
 
     private EditBox searchBox;
-    private boolean panelLeft;
     private int listX;
     private int listWidth;
     private int listTop;
@@ -174,14 +173,13 @@ public class ConfigScreen extends Screen {
     @Override
     protected void init() {
         listWidth = Math.max(214, Math.min(320, this.width / 2));
-        // The list goes on the side the doll is not on, so the doll stays in view
-        panelLeft = CONFIGS.offsetX.getValue() > 0.5;
-        listX = panelLeft ? 0 : this.width - listWidth;
+        listX = this.width - listWidth;
         listTop = HEADER + 24;
         listBottom = this.height - FOOTER;
 
-        addRenderableOnly(new Painter(this::paintDoll));
         addRenderableOnly(new Painter(this::paintBase));
+        addRenderableOnly(new Painter(this::paintPreview));
+        addLeftButtons();
 
         searchBox = new TextBox(listX + 5, HEADER + 4, listWidth - 10, 16);
         searchBox.setHint(text("search").withStyle(ChatFormatting.DARK_GRAY));
@@ -208,6 +206,38 @@ public class ConfigScreen extends Screen {
         placeRows();
         addRenderableOnly(new Painter(this::endList));
         refresh();
+    }
+
+    /** Corner presets and the visual editor button, under the preview. */
+    private void addLeftButtons() {
+        int buttonWidth = Math.min(220, listX - 16);
+        int x = (listX - buttonWidth) / 2;
+        int moveY = this.height - FOOTER - 34;
+        int half = (buttonWidth - 2) / 2;
+        String[] keys = {"top_left", "top_right", "bottom_left", "bottom_right"};
+        Configs.Presets[] presets = {CONFIGS.topLeft, CONFIGS.topRight, CONFIGS.bottomLeft, CONFIGS.bottomRight};
+        Tooltip presetTip = Tooltip.create(Component.translatable("config.%s.option.presets.desc".formatted(AyamePaperDoll.MOD_ID)));
+        for (int i = 0; i < presets.length; i++) {
+            Configs.Presets preset = presets[i];
+            Button button = button(x + (i % 2) * (half + 2), moveY - 46 + (i / 2) * 22, half,
+                    Component.translatable("config.%s.presets.%s".formatted(AyamePaperDoll.MOD_ID, keys[i])), () -> {
+                        preset.load();
+                        refresh();
+                    });
+            button.setTooltip(presetTip);
+            addRenderableWidget(button);
+        }
+        Button adjust = button(x, moveY, buttonWidth, text("adjust_location"), this::openEditor);
+        boolean inWorld = this.minecraft.level != null;
+        adjust.active = inWorld;
+        adjust.setTooltip(Tooltip.create(Component.translatable("config.%s.option.%s.desc".formatted(AyamePaperDoll.MOD_ID,
+                inWorld ? "visual_config_editor" : "visual_config_editor_not_available"))));
+        addRenderableWidget(adjust);
+    }
+
+    /** Area of the preview box: x0, y0, x1, y1. */
+    private int[] previewBox() {
+        return new int[]{8, HEADER + 16, listX - 8, this.height - FOOTER - 34 - 46 - 6};
     }
 
     private static Button button(int x, int y, int width, Component message, Runnable action) {
@@ -241,7 +271,6 @@ public class ConfigScreen extends Screen {
     // --- the settings ----------------------------------------------------------
 
     private void buildRows() {
-        boolean inWorld = this.minecraft.level != null;
         BooleanSupplier locked = () -> CONFIGS.rotationMode.getValue() == Configs.RotationMode.LOCK;
         BooleanSupplier manual = () -> CONFIGS.poseOffsetMethod.getValue() == Configs.PoseOffsetMethod.MANUAL;
 
@@ -253,8 +282,6 @@ public class ConfigScreen extends Screen {
         all.add(toggle(CONFIGS.spectatorAutoSwitch));
 
         all.add(section("position"));
-        all.add(action("visual_editor", this::openEditor).when(() -> inWorld, "in_world"));
-        all.add(presets());
         all.add(decimal(CONFIGS.offsetX, 0.01, ConfigScreen::plain));
         all.add(decimal(CONFIGS.offsetY, 0.01, ConfigScreen::plain));
         all.add(decimal(CONFIGS.size, 0.01, ConfigScreen::plain));
@@ -486,40 +513,6 @@ public class ConfigScreen extends Screen {
         return String.format(Locale.ROOT, "%.1f°", value);
     }
 
-    private Row action(String key, Runnable run) {
-        String label = text(key).getString();
-        Row row = new Row(label, label.toLowerCase(Locale.ROOT), ROW, false);
-        row.tip = Component.translatable("config.%s.option.visual_config_editor.desc".formatted(AyamePaperDoll.MOD_ID));
-        row.add(button(controlX(), 0, controlWidth(), text(key + ".button"), run), 0);
-        return row;
-    }
-
-    private Row presets() {
-        String label = Component.translatable("config.%s.option.presets".formatted(AyamePaperDoll.MOD_ID)).getString();
-        String[] keys = {"top_left", "top_right", "bottom_left", "bottom_right"};
-        Configs.Presets[] presets = {CONFIGS.topLeft, CONFIGS.topRight, CONFIGS.bottomLeft, CONFIGS.bottomRight};
-        StringBuilder searchable = new StringBuilder(label);
-        Component[] names = new Component[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            names[i] = Component.translatable("config.%s.presets.%s".formatted(AyamePaperDoll.MOD_ID, keys[i]));
-            searchable.append(' ').append(names[i].getString());
-        }
-        Row row = new Row(label, searchable.toString().toLowerCase(Locale.ROOT), ROW * 3 + 2, false);
-        row.labelled = false;
-        row.tip = Component.translatable("config.%s.option.presets.desc".formatted(AyamePaperDoll.MOD_ID));
-        int width = (rowWidth() - 2) / 2;
-        for (int i = 0; i < presets.length; i++) {
-            Configs.Presets preset = presets[i];
-            Button button = button(rowX() + (i % 2) * (width + 2), 0, width, names[i], () -> {
-                preset.load();
-                // The list may now belong on the other side of the screen
-                rebuild = true;
-            });
-            row.add(button, ROW + (i / 2) * ROW);
-        }
-        return row;
-    }
-
     // --- scrolling -------------------------------------------------------------
 
     private int maxScroll() {
@@ -653,9 +646,51 @@ public class ConfigScreen extends Screen {
 
     // --- painting --------------------------------------------------------------
 
-    /** The live paper doll at its real place on screen, drawn first so the panels cover it. */
+    /**
+     * The live paper doll in a fixed box on the left, with every look setting applied. The doll is
+     * moved and sized into the box for this one draw by swapping its position settings, then they
+     * are put back; the real position shows in the line under the buttons and in the editor.
+     */
+    private void paintPreview(Canvas canvas) {
+        int[] box = previewBox();
+        int w = box[2] - box[0], h = box[3] - box[1];
+        canvas.text(text("preview").getString(), box[0], HEADER + 5, WHITE, true);
+        String placement = Component.translatable(KEY + "placement", plain(CONFIGS.offsetX.getValue()),
+                plain(CONFIGS.offsetY.getValue()), plain(CONFIGS.size.getValue())).getString();
+        placement = canvas.trim(placement, listX - 8);
+        canvas.text(placement, (listX - canvas.textWidth(placement)) / 2, this.height - FOOTER - 11, GREY, true);
+        if (w < 20 || h < 30) return;
+
+        canvas.rect(box[0], box[1], w, h, 0x66000000);
+        canvas.rect(box[0], box[1], w, 1, LINE);
+        canvas.rect(box[0], box[3] - 1, w, 1, LINE);
+        canvas.rect(box[0], box[1], 1, h, LINE);
+        canvas.rect(box[2] - 1, box[1], 1, h, LINE);
+
+        String note = this.minecraft.level == null ? text("note.no_world").getString()
+                : !CONFIGS.displayPaperDoll.getValue() ? text("note.hidden").getString() : "";
+        if (!note.isEmpty()) {
+            note = canvas.trim(note, w - 8);
+            canvas.text(note, box[0] + (w - canvas.textWidth(note)) / 2, box[1] + h / 2 - 4, YELLOW, true);
+            return;
+        }
+
+        // The doll stands with its feet at the offset point and is about two blocks of Size tall
+        double sizePx = Math.min((h - 12) / 2.1, (w - 12) / 1.3);
+        double offsetX = CONFIGS.offsetX.getValue(), offsetY = CONFIGS.offsetY.getValue(), size = CONFIGS.size.getValue();
+        CONFIGS.offsetX.setValue((box[0] + w / 2.0) / this.width);
+        CONFIGS.offsetY.setValue((box[3] - 6) / (double) this.height);
+        CONFIGS.size.setValue(sizePx / this.height);
+        try {
+            paintDoll(canvas);
+        } finally {
+            CONFIGS.offsetX.setValue(offsetX);
+            CONFIGS.offsetY.setValue(offsetY);
+            CONFIGS.size.setValue(size);
+        }
+    }
+
     private void paintDoll(Canvas canvas) {
-        if (this.minecraft.level == null) return;
         //? if >=26.1 {
         previewHud.extractPaperdoll(canvas.graphics(), this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(true));
         //?}
@@ -679,20 +714,6 @@ public class ConfigScreen extends Screen {
         canvas.rect(0, this.height - FOOTER, this.width, 1, LINE);
         String title = this.title.getString();
         canvas.text(title, (this.width - canvas.textWidth(title)) / 2, 8, WHITE, true);
-
-        String placement = Component.translatable(KEY + "placement", plain(CONFIGS.offsetX.getValue()),
-                plain(CONFIGS.offsetY.getValue()), plain(CONFIGS.size.getValue())).getString();
-        canvas.text(canvas.trim(placement, this.width - 226), 8, this.height - 19, GREY, true);
-
-        // A note in the open part of the screen when there is no doll to see
-        String note = this.minecraft.level == null ? text("note.no_world").getString()
-                : !CONFIGS.displayPaperDoll.getValue() ? text("note.hidden").getString() : "";
-        if (!note.isEmpty()) {
-            int freeX = panelLeft ? listWidth : 0;
-            int freeWidth = this.width - listWidth;
-            note = canvas.trim(note, freeWidth - 8);
-            canvas.text(note, freeX + (freeWidth - canvas.textWidth(note)) / 2, (HEADER + listBottom) / 2 - 4, YELLOW, true);
-        }
     }
 
     private void beginList(Canvas canvas) {

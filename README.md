@@ -20,9 +20,9 @@ itself goes to the original authors; see [Credits](#credits).
 - **Fabric / Quilt:** needs [Fabric API](https://modrinth.com/mod/fabric-api) ([QFAPI](https://modrinth.com/mod/qsl) on Quilt). Settings are in [Mod Menu](https://modrinth.com/mod/modmenu), which is optional.
 - **NeoForge / Forge:** settings are in *Mods → Kartoneks Paperdoll → Config*.
 - **F8** shows or hides the paper doll. A key that opens the settings can be set in *Options → Controls*.
-- **Settings screen:** the live paper doll stays in view while a searchable list of settings fills the other side of the screen.
+- **Settings screen:** a live preview of your paper doll on the left, with the corner presets and *Adjust location* under it, and a searchable list of settings on the right.
   Each changed setting gets a reset button, and settings that do nothing in your current setup are greyed out with a tooltip that says why.
-- **Visual editor:** *Position → Move on screen*. The doll is framed with viewfinder corners and its position; left-drag it to move it, right-drag to rotate it and scroll to resize it.
+- **Visual editor:** *Adjust location* under the preview. The doll is framed with viewfinder corners and its position; left-drag it to move it, right-drag to rotate it and scroll to resize it.
 - **Hide when idle (on by default):** like the Bedrock Edition paper doll, it shows while you move, jump, sneak, sprint, swim, fly, ride, fight or use items,
   and hides after 3 seconds of standing still (adjustable under *When to show*). The show/hide key brings it back right away.
 - Client-side only, so it works on any server.
