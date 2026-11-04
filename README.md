@@ -20,7 +20,9 @@ itself goes to the original authors; see [Credits](#credits).
 - **Fabric / Quilt:** needs [Fabric API](https://modrinth.com/mod/fabric-api) ([QFAPI](https://modrinth.com/mod/qsl) on Quilt). Settings are in [Mod Menu](https://modrinth.com/mod/modmenu), which is optional.
 - **NeoForge / Forge:** settings are in *Mods → Kartoneks Paperdoll → Config*.
 - **F8** shows or hides the paper doll. A key that opens the settings can be set in *Options → Controls*.
-- **Visual Configuration Editor:** in the settings, left-drag the doll to move it, right-drag to rotate it and scroll to resize it.
+- **Settings screen:** the live paper doll stays in view while a searchable list of settings fills the other side of the screen.
+  Each changed setting gets a reset button, and settings that do nothing in your current setup are greyed out with a tooltip that says why.
+- **Visual editor:** *Position → Move on screen*. Left-drag the doll to move it, right-drag to rotate it and scroll to resize it.
 - Client-side only, so it works on any server.
 
 ## Versions and loaders
