@@ -294,6 +294,8 @@ public class ConfigScreen extends Screen {
         all.add(toggle(CONFIGS.visibleDuringActivity));
         all.add(toggle(CONFIGS.hideUnderDebug));
         all.add(toggle(CONFIGS.hideOnScreenOpen));
+        all.add(toggle(CONFIGS.autoHide));
+        all.add(decimal(CONFIGS.autoHideDelay, 0.5, ConfigScreen::seconds).when(CONFIGS.autoHide::getValue, "auto_hide"));
 
         all.add(section("this_screen"));
         all.add(toggle(CONFIGS.pauseGameOnConfigScreen));
@@ -474,6 +476,10 @@ public class ConfigScreen extends Screen {
 
     private static String plain(double value) {
         return String.format(Locale.ROOT, "%.2f", value);
+    }
+
+    private static String seconds(double value) {
+        return String.format(Locale.ROOT, "%.1f s", value);
     }
 
     private static String degrees(double value) {

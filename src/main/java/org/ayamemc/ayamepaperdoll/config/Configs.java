@@ -82,6 +82,9 @@ public class Configs {
     public final SimpleOption<Boolean> visibleDuringActivity = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("visible_during_activity"), false);
     public final SimpleOption<Boolean> hideUnderDebug = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("hide_under_debug"), true);
     public final SimpleOption<Boolean> hideOnScreenOpen = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("hide_on_screen_open"), false);
+    // Bedrock-style: shown while the player moves or acts, hidden after this many seconds of standing still
+    public final SimpleOption<Boolean> autoHide = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("auto_hide"), true);
+    public final SimpleNumericOption<Double> autoHideDelay = new SimpleNumericOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("auto_hide_delay"), 3D, 0.5D, 30D);
     public final SimpleOption<Boolean> spectatorAutoSwitch = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("spectator_auto_switch"), true);
     public final SimpleOption<String> playerName = new SimpleOption<>(DETAILS_CATEGORY, AyamePaperDoll.path("player_name"), "");
     public final SimpleOption<Integer> lastConfigTabIdx = new SimpleOption<>(HIDDEN_CATEGORY, AyamePaperDoll.path("last_config_tab_idx"), 0);

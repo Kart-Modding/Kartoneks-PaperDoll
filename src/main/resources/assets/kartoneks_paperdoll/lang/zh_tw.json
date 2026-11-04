@@ -121,5 +121,10 @@
   "config.kartoneks_paperdoll.screen.why.locked": "僅當旋轉模式為鎖定時生效。",
   "config.kartoneks_paperdoll.screen.why.manual": "僅當姿勢偏移方式為手動時生效。",
   "config.kartoneks_paperdoll.screen.why.world_light": "需要開啟使用世界光照。",
-  "config.kartoneks_paperdoll.screen.why.standing": "姿勢偏移方式為強制站立時無效。"
+  "config.kartoneks_paperdoll.screen.why.standing": "姿勢偏移方式為強制站立時無效。",
+  "config.kartoneks_paperdoll.option.auto_hide": "閒置時隱藏",
+  "config.kartoneks_paperdoll.option.auto_hide.desc": "效果類似基岩版的紙娃娃：移動、跳躍、潛行、衝刺、游泳、飛行、騎乘、戰鬥或使用物品時顯示，靜止幾秒後自動隱藏。\n\n按顯示/隱藏鍵可立即重新顯示。",
+  "config.kartoneks_paperdoll.option.auto_hide_delay": "隱藏延遲",
+  "config.kartoneks_paperdoll.option.auto_hide_delay.desc": "靜止多少秒後隱藏紙娃娃。\n\n僅在開啟§a閒置時隱藏§r時生效。",
+  "config.kartoneks_paperdoll.screen.why.auto_hide": "需要開啟閒置時隱藏。"
 }

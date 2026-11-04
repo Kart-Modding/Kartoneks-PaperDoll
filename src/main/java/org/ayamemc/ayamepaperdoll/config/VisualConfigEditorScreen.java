@@ -34,16 +34,22 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 //?}
 import net.minecraft.network.chat.Component;
+import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
+import org.ayamemc.ayamepaperdoll.config.view.Canvas;
 import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 //? if <26.3 {
 /*import org.lwjgl.glfw.GLFW;
 *///?}
+
+import java.util.Locale;
 
 import static org.ayamemc.ayamepaperdoll.AyamePaperDoll.CONFIGS;
 
 public class VisualConfigEditorScreen extends Screen {
     private static final int LINE_COLOR = 0xA6_FFFFFF;
     private static final int BORDER_MARGIN = 10;
+    private static final int FRAME = 0x73FFFFFF;
+    private static final int FRAME_HOVERED = 0xD9FFFFFF;
     private final Screen lastScreen;
     private final PaperDollRenderer paperDollRenderer = PaperDollRenderer.getInstance();
 
@@ -99,11 +105,60 @@ public class VisualConfigEditorScreen extends Screen {
         //? if >=26.1 {
         graphics.verticalLine(BORDER_MARGIN, -1, height, LINE_COLOR);
         paperDollRenderer.extractPaperdoll(graphics, a);
+        paintFrame(new Canvas(graphics), mouseX, mouseY);
         //?}
         //? if <26.1 {
         /*guiGraphics.vLine(BORDER_MARGIN, -1, height, LINE_COLOR);
         paperDollRenderer.render(partialTick, guiGraphics);
+        paintFrame(new Canvas(guiGraphics), mouseX, mouseY);
         *///?}
+    }
+
+    /**
+     * Frames the doll with viewfinder corners and labels it with its position. The box comes from
+     * the settings: the doll stands with its feet at the offset point and is about two blocks of
+     * Size tall, so it fits any skin without measuring the model.
+     */
+    private void paintFrame(Canvas canvas, int mouseX, int mouseY) {
+        double size = CONFIGS.size.getValue() * height;
+        double feetX = CONFIGS.offsetX.getValue() * width;
+        double feetY = CONFIGS.offsetY.getValue() * height;
+        int x0 = Math.max(1, (int) Math.floor(feetX - 0.6 * size));
+        int x1 = Math.min(width - 1, (int) Math.ceil(feetX + 0.6 * size));
+        int y0 = Math.max(1, (int) Math.floor(feetY - 2.0 * size));
+        int y1 = Math.min(height - 1, (int) Math.ceil(feetY + 0.1 * size));
+        if (x1 - x0 < 4 || y1 - y0 < 4) return;
+        int w = x1 - x0, h = y1 - y0;
+
+        boolean hovered = mouseX >= x0 && mouseX < x1 && mouseY >= y0 && mouseY < y1;
+        // A faint full border, and bright corners like the mod icon
+        int edge = hovered ? FRAME_HOVERED : FRAME;
+        canvas.rect(x0, y0, w, 1, edge);
+        canvas.rect(x0, y1 - 1, w, 1, edge);
+        canvas.rect(x0, y0, 1, h, edge);
+        canvas.rect(x1 - 1, y0, 1, h, edge);
+        int arm = Math.max(3, Math.min(10, Math.min(w, h) / 4));
+        int corner = 0xFFFFFFFF;
+        canvas.rect(x0 - 1, y0 - 1, arm, 2, corner);
+        canvas.rect(x0 - 1, y0 - 1, 2, arm, corner);
+        canvas.rect(x1 - arm + 1, y0 - 1, arm, 2, corner);
+        canvas.rect(x1 - 1, y0 - 1, 2, arm, corner);
+        canvas.rect(x0 - 1, y1 - 1, arm, 2, corner);
+        canvas.rect(x0 - 1, y1 - arm + 1, 2, arm, corner);
+        canvas.rect(x1 - arm + 1, y1 - 1, arm, 2, corner);
+        canvas.rect(x1 - 1, y1 - arm + 1, 2, arm, corner);
+
+        String label = Component.translatable("config.%s.screen.placement".formatted(AyamePaperDoll.MOD_ID),
+                format(CONFIGS.offsetX.getValue()), format(CONFIGS.offsetY.getValue()), format(CONFIGS.size.getValue())).getString();
+        int labelWidth = canvas.textWidth(label) + 8;
+        int labelX = Math.max(2, Math.min(x0, width - labelWidth - 2));
+        int labelY = y0 > 16 ? y0 - 14 : Math.min(y1 + 3, height - 14);
+        canvas.rect(labelX, labelY, labelWidth, 12, 0xB4000000);
+        canvas.text(label, labelX + 4, labelY + 2, 0xFFFFFFFF, true);
+    }
+
+    private static String format(double value) {
+        return String.format(Locale.ROOT, "%.2f", value);
     }
 
 

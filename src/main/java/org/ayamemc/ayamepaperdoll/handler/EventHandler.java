@@ -33,6 +33,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import org.ayamemc.ayamepaperdoll.AyamePaperDoll;
 import org.ayamemc.ayamepaperdoll.config.ConfigScreen;
+import org.ayamemc.ayamepaperdoll.config.Configs;
 import org.ayamemc.ayamepaperdoll.config.VisualConfigEditorScreen;
 import org.ayamemc.ayamepaperdoll.hud.PaperDollRenderer;
 import org.ayamemc.ayamepaperdoll.mixininterface.EntityMixinInterface;
@@ -86,7 +87,8 @@ public class EventHandler {
                         !(minecraft.screen instanceof VisualConfigEditorScreen) &&
                         *///?}
                         (!(CONFIGS.visibleDuringActivity.getValue()) ||
-                                (CONFIGS.visibleDuringActivity.getValue() && hasActivity(player, playerPose)))
+                                (CONFIGS.visibleDuringActivity.getValue() && hasActivity(player, playerPose))) &&
+                        (!CONFIGS.autoHide.getValue() || recentlyActive())
 
 
         ) {
@@ -134,9 +136,44 @@ public class EventHandler {
     }
 
 
+    // Bedrock-style auto hide: when the player last moved or did something, in milliseconds
+    private static long lastActionTime = 0;
+    private static double lastX, lastY, lastZ;
+
+    /** True until {@link Configs#autoHideDelay} seconds after the player last moved or acted. */
+    public static boolean recentlyActive() {
+        return System.currentTimeMillis() - lastActionTime < CONFIGS.autoHideDelay.getValue() * 1000;
+    }
+
+    /** Called every client tick: notes whether the player moved or did something since the last tick. */
+    private static void trackActivity() {
+        final Player player = minecraft.player;
+        if (player == null) return;
+        double dx = player.getX() - lastX, dy = player.getY() - lastY, dz = player.getZ() - lastZ;
+        boolean moved = dx * dx + dy * dy + dz * dz > 1.0E-4;
+        lastX = player.getX();
+        lastY = player.getY();
+        lastZ = player.getZ();
+        boolean acting = moved ||
+                player.swinging ||
+                player.isUsingItem() ||
+                player.hurtTime > 0 ||
+                player.isShiftKeyDown() ||
+                player.isSprinting() ||
+                player.isFallFlying() ||
+                player.isSwimming() ||
+                player.getAbilities().flying ||
+                !player.onGround() ||
+                ((EntityMixinInterface) player).ayame_paperdoll$isSitting();
+        if (acting) lastActionTime = System.currentTimeMillis();
+    }
+
     public static void keyPressed() {
+        trackActivity();
         while (AyamePaperDoll.SHOW_PAPERDOLL_KEY.consumeClick()) {
             CONFIGS.displayPaperDoll.setValue(!CONFIGS.displayPaperDoll.getValue());
+            // Show it right away, even while standing still
+            lastActionTime = System.currentTimeMillis();
         }
         while (AyamePaperDoll.OPEN_CONFIG_GUI.consumeClick()) {
             //? if >=26.2 {
