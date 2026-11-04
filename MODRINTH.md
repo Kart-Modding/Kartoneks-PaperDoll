@@ -20,3 +20,7 @@
 
 ## Credits
 A fork of [Ayame PaperDoll](https://modrinth.com/mod/ayame-paperdoll), itself a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer). All credit for the mod itself goes to the original authors.
+
+## Creator
+
+[![Kartonekk: lifetime downloads on Modrinth and CurseForge](https://github-mc-widget.vercel.app/api/badge/creator)](https://github.com/kartonekk)

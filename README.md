@@ -63,3 +63,7 @@ Jars land in `build/libs/<mod version>/`. Per-version dependencies are in `stone
 Ayame PaperDoll is a highly configurable paper doll mod and a fork of [Extra Player Renderer](https://modrinth.com/mod/extraplayerrenderer).
 It adds support for **NeoForge, Forge, Quilt and higher versions of Minecraft**, along with **more useful key bindings**,
 **additional configuration options** (such as **Rotation Unlock**), and a **Visual Configuration Editor**.
+
+## Creator
+
+[![Kartonekk: lifetime downloads on Modrinth and CurseForge](https://github-mc-widget.vercel.app/api/badge/creator)](https://github.com/kartonekk)
