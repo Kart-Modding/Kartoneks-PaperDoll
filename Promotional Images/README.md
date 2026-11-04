@@ -29,3 +29,9 @@ node build.js              # every page, or e.g. `node build.js banner`
 
 Inter and DejaVu Sans Mono must be installed for the pages to render the same way.
 How pages turn into layers is described at the top of `build.js`.
+
+## Icons
+
+The icons in `features` (Any corner, Rotation modes, Client-side) are from [Lucide](https://lucide.dev)
+(`lucide-static` 1.68.0, the same set Spoty Widget uses), under the ISC license. The license allows use and
+changes, as long as its notice is kept: see `LUCIDE-LICENSE.txt`.
