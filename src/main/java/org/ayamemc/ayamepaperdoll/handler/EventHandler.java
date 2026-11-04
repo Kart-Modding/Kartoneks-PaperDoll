@@ -155,7 +155,9 @@ public class EventHandler {
         lastY = player.getY();
         lastZ = player.getZ();
         boolean acting = moved ||
-                player.swinging ||
+                // Attacking, mining and placing; works the same on every version
+                minecraft.options.keyAttack.isDown() ||
+                minecraft.options.keyUse.isDown() ||
                 player.isUsingItem() ||
                 player.hurtTime > 0 ||
                 player.isShiftKeyDown() ||
