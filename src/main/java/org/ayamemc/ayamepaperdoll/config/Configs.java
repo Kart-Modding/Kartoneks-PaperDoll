@@ -58,7 +58,7 @@ public class Configs {
     public final SimpleNumericOption<Double> offsetY = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("offset_y"), 0.23, -0.5, 2.5);
     public final SimpleNumericOption<Double> rotationX = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_x"), -4.96, -180D, 180D);
     public final SimpleNumericOption<Double> rotationY = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_y"), -45D, -180D, 180D);
-    public final SimpleNumericOption<Double> rotationZ = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_z"), 0D, -180D, 180D);
+    public final SimpleNumericOption<Double> rotationZ = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("rotation_z"), -35D, -180D, 180D);
     public final SimpleNumericOption<Double> size = new SimpleNumericOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("size"), 0.1, 0D, 2D);
     public final SimpleOption<Boolean> mirrored = new SimpleOption<>(GENERAL_CATEGORY, AyamePaperDoll.path("mirrored"), true);
     public final SimpleNumericOption<Double> pitch = new SimpleNumericOption<>(ROTATIONS_CATEGORY, AyamePaperDoll.path("pitch"), 0D, -90D, 90D);
